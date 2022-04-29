@@ -1,16 +1,16 @@
 <?php
 
-namespace VendorName\Skeleton\Facades;
+namespace Khomeriki\BitgoWallet\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \VendorName\Skeleton\Skeleton
  */
-class Skeleton extends Facade
+class Wallet extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'skeleton';
+        return 'Wallet';
     }
 }

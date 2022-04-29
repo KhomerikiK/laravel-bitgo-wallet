@@ -1,17 +1,16 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "khomeriki/laravel_bitgo_wallet",
+    "description": "wallet..",
     "keywords": [
-        ":vendor_name",
+        "khomeriki",
         "laravel",
-        ":package_slug"
+        "laravel_bitgo_wallet"
     ],
     "homepage": "https://github.com/:vendor_slug/:package_slug",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "k.khomeriki",
             "role": "Developer"
         }
     ],
@@ -34,13 +33,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Khomeriki\\BitgoWallet\\": "src",
+            "Khomeriki\\BitgoWallet\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Khomeriki\\BitgoWallet\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,10 +53,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Khomeriki\\BitgoWallet\\BitgoServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Skeleton": "Khomeriki\\BitgoWallet\\Facades\\Bitgo"
             }
         }
     },
