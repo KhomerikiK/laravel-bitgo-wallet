@@ -21,7 +21,7 @@ class Bitgo
     protected function httpGet(string $endpoint): ?array
     {
         /** @phpstan-ignore-next-line */
-        return Http::bitgo()->get($endpoint)->json();
+        return Http::bitgoApi()->get($endpoint)->json();
     }
 
     /**
@@ -32,7 +32,7 @@ class Bitgo
     protected function httPost(string $endpoint, array $data): ?array
     {
         /** @phpstan-ignore-next-line */
-        return Http::bitgo()->get($endpoint, $data)->json();
+        return Http::bitgoApi()->get($endpoint, $data)->json();
     }
 
     /**
@@ -43,6 +43,6 @@ class Bitgo
     protected function httpPostExpress(string $endpoint, array $data): ?array
     {
         /** @phpstan-ignore-next-line */
-        return Http::bitgoExpress()->post($endpoint, $data)->json();
+        return Http::bitgoExpressApi()->post($endpoint, $data)->json();
     }
 }
