@@ -5,7 +5,7 @@ namespace Khomeriki\BitgoWallet\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \VendorName\Skeleton\Skeleton
+ * @see \Khomeriki\BitgoWallet\Wallet
  */
 class Wallet extends Facade
 {
