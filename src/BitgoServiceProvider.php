@@ -2,8 +2,8 @@
 
 namespace Khomeriki\BitgoWallet;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\ServiceProvider;
 
 class BitgoServiceProvider extends ServiceProvider
 {
