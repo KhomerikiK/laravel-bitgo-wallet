@@ -13,7 +13,7 @@ it('can generate wallet', function () {
         ->toHaveProperty('address');
 });
 
-it('can generate wallet with webhook', function (){
+it('can generate wallet with webhook', function () {
     $wallet = Wallet::init('tbtc')
         ->generate('wallet with webhook', 'testing pass')
         ->addWebhook(0);
@@ -25,7 +25,7 @@ it('can generate wallet with webhook', function (){
         ->toHaveProperty('address');
 });
 
-it('inits wallet correctly', function (){
+it('inits wallet correctly', function () {
     $wallet = Wallet::init('tbtc', 'walletId');
 
     expect($wallet)
@@ -34,7 +34,7 @@ it('inits wallet correctly', function (){
         ->toHaveProperty('id', 'walletId');
 });
 
-test('invalid wallet id', function (){
+test('invalid wallet id', function () {
     $wallet = Wallet::init('tbtc', 'invalid-walletId')
         ->generateAddress();
 

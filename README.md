@@ -22,7 +22,7 @@ composer require khomerikik/laravel-bitgo-wallet
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=":laravel-bitgo-wallet-config"
+php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoServiceProvider"
 ```
 
 This is the contents of the published config file:
