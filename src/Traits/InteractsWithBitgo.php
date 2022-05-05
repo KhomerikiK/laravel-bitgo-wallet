@@ -28,7 +28,6 @@ trait InteractsWithBitgo
         return Http::bitgoApi()->get($endpoint, $data);
     }
 
-
     /**
      * @param string $endpoint
      * @param array $data

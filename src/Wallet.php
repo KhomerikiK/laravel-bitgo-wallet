@@ -26,6 +26,7 @@ class Wallet extends Bitgo implements WalletContract
     {
         $this->id = $id;
         $this->coin = $coin;
+
         return $this;
     }
 
@@ -41,6 +42,7 @@ class Wallet extends Bitgo implements WalletContract
         $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
         $this->error = $wallet['error'] ?? null;
+
         return $this;
     }
 
@@ -53,6 +55,7 @@ class Wallet extends Bitgo implements WalletContract
         $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
         $this->error = $wallet['error'] ?? null;
+
         return $this;
     }
 
@@ -65,6 +68,7 @@ class Wallet extends Bitgo implements WalletContract
     {
         $webhook = self::addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
         $this->error = $webhook['error'] ?? null;
+
         return $this;
     }
 
@@ -77,6 +81,7 @@ class Wallet extends Bitgo implements WalletContract
         $address = self::generaAddressOnWallet($this->coin, $this->id, $label);
         $this->error = $address['error'] ?? null;
         $this->address = $address['address'] ?? null;
+
         return $this;
     }
 }

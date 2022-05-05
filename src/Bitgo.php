@@ -44,12 +44,12 @@ class Bitgo implements BitgoContract
     {
         $endpoint = "$coin/wallet/generate";
         $response = self::httpPostExpress($endpoint, [
-            'label'=> $label,
-            'passphrase' => $passphrase
+            'label' => $label,
+            'passphrase' => $passphrase,
         ]);
+
         return $response->json();
     }
-
 
     /**
      * @param string $coin
@@ -60,6 +60,7 @@ class Bitgo implements BitgoContract
     {
         $endpoint = "$coin/wallet/{$walletId}";
         $response = self::httpGet($endpoint);
+
         return $response->json();
     }
 
@@ -73,6 +74,7 @@ class Bitgo implements BitgoContract
     {
         $endpoint = "$coin/wallet/$walletId/address";
         $response = $this->httpPostExpress($endpoint, ['label' => $label]);
+
         return $response->json();
     }
 
@@ -88,10 +90,11 @@ class Bitgo implements BitgoContract
         $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress($endpoint, [
-            'type'=> 'transfer',//TODO::should be dynamic
+            'type' => 'transfer',//TODO::should be dynamic
             'url' => $callbackUrl,
-            'numConfirmations' => $numConfirmations
+            'numConfirmations' => $numConfirmations,
         ]);
+
         return $response->json();
     }
 }
