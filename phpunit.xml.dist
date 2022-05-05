@@ -36,4 +36,13 @@
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="BITGO_API_KEY" value=""/>
+        <env name="BITGO_EXPRESS_API_URL" value="http://localhost:3080"/>
+        <env name="BITGO_TESTNET" value="true"/>
+        <env name="BITGO_WEBHOOK_CALLBACK" value="https://webhook.site/dd306829-30cb-41c8-a514-13a4a0db4a3b"/>
+    </php>
 </phpunit>
