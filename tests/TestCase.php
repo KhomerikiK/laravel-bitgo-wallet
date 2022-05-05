@@ -1,21 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Khomeriki\BitgoWallet\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Khomeriki\BitgoWallet\BitgoServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)

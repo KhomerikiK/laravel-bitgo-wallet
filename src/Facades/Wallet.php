@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Khomeriki\BitgoWallet\Wallet
+ * @method static init(string $string, string $walletId = null)
  */
 class Wallet extends Facade
 {
