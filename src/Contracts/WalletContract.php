@@ -34,4 +34,15 @@ interface WalletContract
      * @return $this
      */
     public function generateAddress(string $label = null): self;
+
+    /**
+     * @return $this
+     */
+    public function listTransfers(): self;
+
+    /**
+     * @param string $transferId
+     * @return array
+     */
+    public function getTransfer(string $transferId): array;
 }

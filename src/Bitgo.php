@@ -40,26 +40,27 @@ class Bitgo implements BitgoContract
      * @param string $passphrase
      * @return array|null
      */
-    public function generateWallet(string $coin, string $label, string $passphrase): ?array
+    protected function generateWallet(string $coin, string $label, string $passphrase): ?array
     {
         $endpoint = "$coin/wallet/generate";
         $response = self::httpPostExpress($endpoint, [
-            'label'=> $label,
-            'passphrase' => $passphrase
+            'label' => $label,
+            'passphrase' => $passphrase,
         ]);
+
         return $response->json();
     }
-
 
     /**
      * @param string $coin
      * @param string $walletId
      * @return array|null
      */
-    public function getWallet(string $coin, string $walletId): ?array
+    protected function getWallet(string $coin, string $walletId): ?array
     {
         $endpoint = "$coin/wallet/{$walletId}";
         $response = self::httpGet($endpoint);
+
         return $response->json();
     }
 
@@ -69,10 +70,11 @@ class Bitgo implements BitgoContract
      * @param ?string $label
      * @return array|null
      */
-    public function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
+    protected function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
     {
         $endpoint = "$coin/wallet/$walletId/address";
         $response = $this->httpPostExpress($endpoint, ['label' => $label]);
+
         return $response->json();
     }
 
@@ -83,15 +85,43 @@ class Bitgo implements BitgoContract
      * @param string|null $callbackUrl
      * @return array|null
      */
-    public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array
+    protected function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array
     {
         $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress($endpoint, [
-            'type'=> 'transfer',//TODO::should be dynamic
+            'type' => 'transfer',//TODO::should be dynamic
             'url' => $callbackUrl,
-            'numConfirmations' => $numConfirmations
+            'numConfirmations' => $numConfirmations,
         ]);
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $coin
+     * @param string $walletId
+     * @return array|null
+     */
+    protected function getWalletTransfers(string $coin, string $walletId): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/transfer";
+        $response = self::httpGet($endpoint);
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $coin
+     * @param string $walletId
+     * @param string $transferId
+     * @return array|null
+     */
+    protected function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/transfer/$transferId";
+        $response = self::httpGet($endpoint);
+
         return $response->json();
     }
 }
