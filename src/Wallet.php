@@ -2,12 +2,15 @@
 
 namespace Khomeriki\BitgoWallet;
 
-class Wallet extends Bitgo
+use Khomeriki\BitgoWallet\Contracts\WalletContract;
+
+class Wallet extends Bitgo implements WalletContract
 {
     public string $coin;
+    public ?string $id;
     public ?array $wallet;
-    public ?string $walletId;
     public ?string $address;
+    public ?string $error;
 
     public function __construct()
     {
@@ -16,12 +19,12 @@ class Wallet extends Bitgo
 
     /**
      * @param string $coin
-     * @param string|null $walletId
+     * @param string|null $id
      * @return Wallet
      */
-    public function init(string $coin, string $walletId = null): self
+    public function init(string $coin, string $id = null): self
     {
-        $this->walletId = $walletId;
+        $this->id = $id;
         $this->coin = $coin;
         return $this;
     }
@@ -33,14 +36,11 @@ class Wallet extends Bitgo
      */
     public function generate(string $label, string $passphrase): self
     {
-        $endpoint = "{$this->coin}/wallet/generate";
-        $wallet = $this->httpPostExpress($endpoint, [
-            'label'=> $label,
-            'passphrase' => $passphrase
-        ]);
+        $wallet = self::generateWallet($this->coin, $label, $passphrase);
         $this->wallet = $wallet;
-        $this->walletId = $wallet['id'] ?? null;
+        $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
+        $this->error = $wallet['error'] ?? null;
         return $this;
     }
 
@@ -49,26 +49,22 @@ class Wallet extends Bitgo
      */
     public function get(): self
     {
-        $endpoint = "{$this->coin}/wallet/{$this->walletId}";
-        $wallet = $this->httpGet($endpoint);
-        $this->wallet = $wallet;
-        $this->walletId = $wallet['id'] ?? null;
+        $wallet = self::getWallet($this->coin, $this->id);
+        $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
+        $this->error = $wallet['error'] ?? null;
         return $this;
     }
 
     /**
      * @param int $numConfirmations
+     * @param string|null $callbackUrl
      * @return Wallet
      */
-    public function addWebhook(int $numConfirmations = 0): self
+    public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): self
     {
-        $endpoint = "{$this->coin}/wallet/{$this->walletId}/webhooks";
-        $this->httpPostExpress($endpoint, [
-            'type'=> 'transfer',
-            'url' => config('bitgo.webhook_callback_url'),
-            'numConfirmations' => $numConfirmations
-        ]);
+        $webhook = self::addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
+        $this->error = $webhook['error'] ?? null;
         return $this;
     }
 
@@ -78,9 +74,9 @@ class Wallet extends Bitgo
      */
     public function generateAddress(string $label = null): self
     {
-        $endpoint = "{$this->coin}/wallet/{$this->walletId}/address";
-        $address = $this->httpPostExpress($endpoint, ['label' => $label]);
-        $this->address = $address['address']??null;
+        $address = self::generaAddressOnWallet($this->coin, $this->id, $label);
+        $this->error = $address['error'] ?? null;
+        $this->address = $address['address'] ?? null;
         return $this;
     }
 }

@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Khomeriki\BitgoWallet\Wallet
- * @method static init(string $string, string $walletId = null)
+ * @mixin \Khomeriki\BitgoWallet\Wallet
  */
 class Wallet extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
-        return 'Wallet';
+        return \Khomeriki\BitgoWallet\Wallet::class;
     }
 }
