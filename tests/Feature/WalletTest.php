@@ -1,9 +1,7 @@
 <?php
 
-use Khomeriki\BitgoWallet\Facades\Wallet;
-
 it('can generate wallet', function () {
-    $wallet = Wallet::init('tbtc')
+    $wallet = $this->wallet->init('tbtc')
         ->generate('testing label', 'testing pass');
 
     expect($wallet)
@@ -14,7 +12,7 @@ it('can generate wallet', function () {
 });
 
 it('can generate wallet with webhook', function () {
-    $wallet = Wallet::init('tbtc')
+    $wallet = $this->wallet->init('tbtc')
         ->generate('wallet with webhook', 'testing pass')
         ->addWebhook(0);
 
@@ -26,7 +24,7 @@ it('can generate wallet with webhook', function () {
 });
 
 it('inits wallet correctly', function () {
-    $wallet = Wallet::init('tbtc', 'walletId');
+    $wallet = $this->wallet->init('tbtc', 'walletId');
 
     expect($wallet)
         ->toBeObject()
@@ -35,7 +33,7 @@ it('inits wallet correctly', function () {
 });
 
 test('invalid wallet id', function () {
-    $wallet = Wallet::init('tbtc', 'invalid-walletId')
+    $wallet = $this->wallet->init('tbtc', 'invalid-walletId')
         ->generateAddress();
 
     expect($wallet)

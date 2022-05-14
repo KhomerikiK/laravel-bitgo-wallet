@@ -1,6 +1,7 @@
 <?php
 // config for VendorName/Skeleton
 return [
+    'use_mocks' => env('BITGO_USE_MOCKS', true),//for tests
     'express_api_url' => env('BITGO_EXPRESS_API_URL'),
     'api_key' => env('BITGO_API_KEY'),
     'v2_api_prefix' => 'api/v2/',

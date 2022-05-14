@@ -36,8 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Khomeriki\\BitgoWallet\\": "src",
-            "Khomeriki\\BitgoWallet\\Database\\Factories\\": "database/factories"
+            "Khomeriki\\BitgoWallet\\": "src"
         }
     },
     "autoload-dev": {

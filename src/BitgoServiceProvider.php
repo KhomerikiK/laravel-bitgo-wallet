@@ -4,6 +4,8 @@ namespace Khomeriki\BitgoWallet;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use Khomeriki\BitgoWallet\Adapters\BitgoAdapter;
+use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 
 class BitgoServiceProvider extends ServiceProvider
 {
@@ -14,14 +16,15 @@ class BitgoServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('Wallet', function () {
-            return new Wallet();
-        });
-
         $this->mergeConfigFrom(
             __DIR__.'/../config/bitgo.php',
             'bitgo'
         );
+        $this->app->bind(BitgoAdapterContract::class, BitgoAdapter::class);
+
+        $this->app->bind('Wallet', function () {
+            return new Wallet();
+        });
     }
 
     /**

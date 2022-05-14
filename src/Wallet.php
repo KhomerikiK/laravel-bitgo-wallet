@@ -2,9 +2,10 @@
 
 namespace Khomeriki\BitgoWallet;
 
+use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
 
-class Wallet extends Bitgo implements WalletContract
+class Wallet implements WalletContract
 {
     /**
      * @var string|null
@@ -31,16 +32,17 @@ class Wallet extends Bitgo implements WalletContract
      */
     public ?string $error;
 
+    protected BitgoAdapterContract $adapter;
+
     public function __construct()
     {
+        $this->adapter = app(BitgoAdapterContract::class);
         $this->coin = config('bitgo.default_coin');
         $this->transfers = [];
     }
 
     /**
-     * @param string $coin
-     * @param string|null $id
-     * @return Wallet
+     * @inheritDoc
      */
     public function init(string $coin, string $id = null): self
     {
@@ -51,13 +53,11 @@ class Wallet extends Bitgo implements WalletContract
     }
 
     /**
-     * @param string $label
-     * @param string $passphrase
-     * @return Wallet
+     * @inheritDoc
      */
     public function generate(string $label, string $passphrase): self
     {
-        $wallet = self::generateWallet($this->coin, $label, $passphrase);
+        $wallet = $this->adapter->generateWallet($this->coin, $label, $passphrase);
         $this->wallet = $wallet;
         $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
@@ -67,11 +67,11 @@ class Wallet extends Bitgo implements WalletContract
     }
 
     /**
-     * @return Wallet
+     * @inheritDoc
      */
     public function get(): self
     {
-        $wallet = self::getWallet($this->coin, $this->id);
+        $wallet = $this->adapter->getWallet($this->coin, $this->id);
         $this->id = $wallet['id'] ?? null;
         $this->address = $wallet['receiveAddress']['address'] ?? null;
         $this->error = $wallet['error'] ?? null;
@@ -80,25 +80,22 @@ class Wallet extends Bitgo implements WalletContract
     }
 
     /**
-     * @param int $numConfirmations
-     * @param string|null $callbackUrl
-     * @return Wallet
+     * @inheritDoc
      */
     public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): self
     {
-        $webhook = self::addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
+        $webhook = $this->adapter->addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
         $this->error = $webhook['error'] ?? null;
 
         return $this;
     }
 
     /**
-     * @param string|null $label
-     * @return Wallet
+     * @inheritDoc
      */
     public function generateAddress(string $label = null): self
     {
-        $address = self::generaAddressOnWallet($this->coin, $this->id, $label);
+        $address = $this->adapter->generaAddressOnWallet($this->coin, $this->id, $label);
         $this->error = $address['error'] ?? null;
         $this->address = $address['address'] ?? null;
 
@@ -106,22 +103,21 @@ class Wallet extends Bitgo implements WalletContract
     }
 
     /**
-     * @return $this
+     * @inheritDoc
      */
     public function listTransfers(): self
     {
-        $transfers = $this->getWalletTransfers($this->coin, $this->id);
+        $transfers = $this->adapter->getWalletTransfers($this->coin, $this->id);
         $this->transfers = $transfers['transfers'] ?? [];
 
         return $this;
     }
 
     /**
-     * @param string $transferId
-     * @return array
+     * @inheritDoc
      */
     public function getTransfer(string $transferId): array
     {
-        return $this->getWalletTransfer($this->coin, $this->id, $transferId);
+        return $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
     }
 }
