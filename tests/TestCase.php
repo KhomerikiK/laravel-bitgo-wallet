@@ -11,17 +11,16 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    use BitgoHttpMocks;
     protected BitgoAdapterContract $adapter;
     protected WalletContract $wallet;
-
-    use BitgoHttpMocks;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->adapter = new BitgoAdapter();
         $this->wallet = new Wallet();
-        if (config('bitgo.use_mocks')){
+        if (config('bitgo.use_mocks')) {
             self::setupMocks();
         }
     }
