@@ -1,5 +1,7 @@
 <?php
 
+use Khomeriki\BitgoWallet\Facades\Wallet;
+
 it('can generate wallet', function () {
     $wallet = $this->wallet->init('tbtc')
         ->generate('testing label', 'testing pass');
@@ -39,4 +41,12 @@ test('invalid wallet id', function () {
     expect($wallet)
         ->toHaveProperty('address', null)
         ->toHaveProperty('error', 'invalid wallet id: invalid-walletId');
+});
+
+it('can list all the available wallets', function (){
+    $wallets = Wallet::listAll();
+    $wallet = $wallets->first();
+    expect($wallet)
+        ->toBeInstanceOf(\Khomeriki\BitgoWallet\Wallet::class)
+        ->toHaveProperties(['coin', 'id', 'address']);
 });

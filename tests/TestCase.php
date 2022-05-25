@@ -11,8 +11,8 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected BitgoAdapterContract $adapter;
-    protected WalletContract $wallet;
+    public BitgoAdapterContract $adapter;
+    public WalletContract $wallet;
 
     use BitgoHttpMocks;
 

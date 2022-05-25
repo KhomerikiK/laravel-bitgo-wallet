@@ -51,7 +51,7 @@ class BitgoAdapter implements BitgoAdapterContract
     /**
      * @inheritDoc
      */
-    public function getWallet(string $coin, string $walletId): ?array
+    public function getWallet(string $coin, ?string $walletId): ?array
     {
         $endpoint = "$coin/wallet/{$walletId}";
         $response = $this->httpGet($endpoint);
@@ -103,6 +103,17 @@ class BitgoAdapter implements BitgoAdapterContract
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer/$transferId";
+        $response = $this->httpGet($endpoint);
+
+        return $response->json();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllWallets($coin = null, $expandBalance = true): ?array
+    {
+        $endpoint = "wallets?expandBalance=$expandBalance&coin=$coin";
         $response = $this->httpGet($endpoint);
 
         return $response->json();

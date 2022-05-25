@@ -2,6 +2,7 @@
 
 namespace Khomeriki\BitgoWallet;
 
+use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
 
@@ -119,5 +120,18 @@ class Wallet implements WalletContract
     public function getTransfer(string $transferId): array
     {
         return $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function listAll(string $coin = null): Collection
+    {
+        $wallets = collect($this->adapter->getAllWallets($coin)['wallets'] ?? []);
+        return $wallets->map(function ($element) {
+            $wallet = new Wallet();
+            $wallet->id = $element['id'];
+            return $wallet;
+        });
     }
 }

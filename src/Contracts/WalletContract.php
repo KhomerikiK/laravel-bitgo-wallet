@@ -2,6 +2,8 @@
 
 namespace Khomeriki\BitgoWallet\Contracts;
 
+use Illuminate\Support\Collection;
+
 interface WalletContract
 {
     /**
@@ -45,4 +47,11 @@ interface WalletContract
      * @return array
      */
     public function getTransfer(string $transferId): array;
+
+
+    /**
+     * @param string|null $coin
+     * @return Collection
+     */
+    public function listAll(string $coin = null): Collection;
 }
