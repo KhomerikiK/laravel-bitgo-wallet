@@ -128,9 +128,11 @@ class Wallet implements WalletContract
     public function listAll(string $coin = null): Collection
     {
         $wallets = collect($this->adapter->getAllWallets($coin)['wallets'] ?? []);
+
         return $wallets->map(function ($element) {
             $wallet = new Wallet();
             $wallet->id = $element['id'];
+
             return $wallet;
         });
     }

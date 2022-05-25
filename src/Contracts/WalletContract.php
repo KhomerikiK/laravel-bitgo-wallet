@@ -48,7 +48,6 @@ interface WalletContract
      */
     public function getTransfer(string $transferId): array;
 
-
     /**
      * @param string|null $coin
      * @return Collection

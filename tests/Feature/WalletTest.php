@@ -43,7 +43,7 @@ test('invalid wallet id', function () {
         ->toHaveProperty('error', 'invalid wallet id: invalid-walletId');
 });
 
-it('can list all the available wallets', function (){
+it('can list all the available wallets', function () {
     $wallets = Wallet::listAll();
     $wallet = $wallets->first();
     expect($wallet)
