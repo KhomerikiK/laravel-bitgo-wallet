@@ -13,7 +13,6 @@ class TestCase extends Orchestra
 {
     public BitgoAdapterContract $adapter;
     public WalletContract $wallet;
-
     use BitgoHttpMocks;
 
     protected function setUp(): void
@@ -21,7 +20,7 @@ class TestCase extends Orchestra
         parent::setUp();
         $this->adapter = new BitgoAdapter();
         $this->wallet = new Wallet();
-        if (config('bitgo.use_mocks')){
+        if (config('bitgo.use_mocks')) {
             self::setupMocks();
         }
     }
