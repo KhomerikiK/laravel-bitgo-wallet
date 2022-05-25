@@ -4,7 +4,8 @@ use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
     $wallet = $this->wallet->init('tbtc')
-        ->generate('testing label', 'testing pass');
+        ->generate('testing label', 'testing pass')
+        ->generateAddress();
 
     expect($wallet)
         ->toBeObject()

@@ -8,29 +8,15 @@ use Khomeriki\BitgoWallet\Contracts\WalletContract;
 
 class Wallet implements WalletContract
 {
-    /**
-     * @var string|null
-     */
     public ?string $id;
-    /**
-     * @var string
-     */
     public string $coin;
-    /**
-     * @var array|null
-     */
     public ?array $wallet;
-    /**
-     * @var string|null
-     */
     public ?string $address;
-    /**
-     * @var array
-     */
+    public ?array $receiveAddress;
+    public ?int $balance;
+    public ?int $confirmedBalance;
+    public ?int $spendableBalance;
     public array $transfers;
-    /**
-     * @var string|null
-     */
     public ?string $error;
 
     protected BitgoAdapterContract $adapter;
@@ -40,6 +26,15 @@ class Wallet implements WalletContract
         $this->adapter = app(BitgoAdapterContract::class);
         $this->coin = config('bitgo.default_coin');
         $this->transfers = [];
+    }
+
+    private function setProperties(array $propertyList)
+    {
+        foreach ($propertyList as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**
@@ -59,10 +54,7 @@ class Wallet implements WalletContract
     public function generate(string $label, string $passphrase): self
     {
         $wallet = $this->adapter->generateWallet($this->coin, $label, $passphrase);
-        $this->wallet = $wallet;
-        $this->id = $wallet['id'] ?? null;
-        $this->address = $wallet['receiveAddress']['address'] ?? null;
-        $this->error = $wallet['error'] ?? null;
+        $this->setProperties($wallet);
 
         return $this;
     }
@@ -73,9 +65,7 @@ class Wallet implements WalletContract
     public function get(): self
     {
         $wallet = $this->adapter->getWallet($this->coin, $this->id);
-        $this->id = $wallet['id'] ?? null;
-        $this->address = $wallet['receiveAddress']['address'] ?? null;
-        $this->error = $wallet['error'] ?? null;
+        $this->setProperties($wallet);
 
         return $this;
     }
@@ -129,9 +119,9 @@ class Wallet implements WalletContract
     {
         $wallets = collect($this->adapter->getAllWallets($coin)['wallets'] ?? []);
 
-        return $wallets->map(function ($element) {
-            $wallet = new Wallet();
-            $wallet->id = $element['id'];
+        return $wallets->map(callback: function ($element) {
+            $wallet = new self();
+            $wallet->setProperties($element);
 
             return $wallet;
         });
