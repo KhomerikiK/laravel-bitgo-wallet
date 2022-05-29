@@ -9,7 +9,7 @@ trait BitgoHttpMocks
     public static function setupMocks()
     {
         $walletData = [
-            'id' => '627e1ca8f763d80007d9549b8589c31a',
+            'id' => 'wallet-id',
             'coin' => 'tbtc',
             'receiveAddress' => [
                 'id' => '627e1ca8f763d80007d954b9a4a2477d',
@@ -23,16 +23,14 @@ trait BitgoHttpMocks
             "{$expressUrl}tbtc/wallet/generate" => Http::response($walletData),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
 
-            "{$expressUrl}tbtc/wallet/invalid-walletId/address" => Http::response([
-                'address' => null,
-                'error' => 'invalid wallet id: invalid-walletId',
-            ]),
-            "{$expressUrl}tbtc/wallet/627e1ca8f763d80007d9549b8589c31a/webhooks" => Http::response([]),
+            "{$expressUrl}tbtc/wallet/wallet-id/address" => Http::response([]),
+            "{$expressUrl}tbtc/wallet/wallet-id/webhooks" => Http::response([]),
             "{$expressUrl}ping" => Http::response([]),
             "{$testingUrl}ping" => Http::response([]),
             "{$testingUrl}user/me" => Http::response([
                 'user' => 'fake',
             ]),
+            "{$expressUrl}tbtc/wallet/wallet-id/sendmany" => Http::response([]),
         ]);
     }
 }

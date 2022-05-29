@@ -4,6 +4,7 @@ namespace Khomeriki\BitgoWallet\Adapters;
 
 use Illuminate\Http\Client\Response;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
+use Khomeriki\BitgoWallet\Data\Transfer;
 use Khomeriki\BitgoWallet\Traits\InteractsWithBitgo;
 
 class BitgoAdapter implements BitgoAdapterContract
@@ -114,6 +115,31 @@ class BitgoAdapter implements BitgoAdapterContract
     public function getAllWallets($coin = null, $expandBalance = true): ?array
     {
         $endpoint = "wallets?expandBalance=$expandBalance&coin=$coin";
+        $response = $this->httpGet($endpoint);
+
+        return $response->json();
+    }
+
+    public function sendTransactionToMany(string $coin, string $walletId, Transfer $transfer): ?array
+    {
+        $body = (array)$transfer;
+        $endpoint = "$coin/wallet/$walletId/sendmany";
+        $response = $this->httpPostExpress($endpoint, $body);
+
+        return $response->json();
+    }
+
+    public function getMaximumSpendable(string $coin, string $walletId): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/maximumSpendable";
+        $response = $this->httpGet($endpoint);
+
+        return $response->json();
+    }
+
+    public function listTraWalletTransfers(string $coin, string $walletId): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/transfer";
         $response = $this->httpGet($endpoint);
 
         return $response->json();

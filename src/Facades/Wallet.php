@@ -5,8 +5,8 @@ namespace Khomeriki\BitgoWallet\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Khomeriki\BitgoWallet\Wallet
- * @mixin \Khomeriki\BitgoWallet\Wallet
+ * @method static \Khomeriki\BitgoWallet\Wallet init(string $coin, string $id = null)
+ * @method static \Illuminate\Support\Collection listAll(string $coin = null))
  */
 class Wallet extends Facade
 {

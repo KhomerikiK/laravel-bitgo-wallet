@@ -3,6 +3,7 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Support\Collection;
+use Khomeriki\BitgoWallet\Data\Transfer;
 
 interface WalletContract
 {
@@ -53,4 +54,20 @@ interface WalletContract
      * @return Collection
      */
     public function listAll(string $coin = null): Collection;
+
+    /**
+     * @param Transfer $transfer
+     * @return array|null
+     */
+    public function sendTransfer(Transfer $transfer): ?array;
+
+    /**
+     * @return array|null
+     */
+    public function getMaximumSpendable(): ?array;
+
+    /**
+     * @return array|null
+     */
+    public function getTransfers(): ?array;
 }

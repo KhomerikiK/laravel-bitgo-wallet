@@ -3,6 +3,7 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Http\Client\Response;
+use Khomeriki\BitgoWallet\Data\Transfer;
 
 interface BitgoAdapterContract
 {
@@ -74,4 +75,26 @@ interface BitgoAdapterContract
      * @return array|null
      */
     public function getAllWallets($coin = null, $expandBalance = true): ?array;
+
+    /**
+     * @param string $coin
+     * @param string $walletId
+     * @param Transfer $transfer
+     * @return array|null
+     */
+    public function sendTransactionToMany(string $coin, string $walletId, Transfer $transfer): ?array;
+
+    /**
+     * @param string $coin
+     * @param string $walletId
+     * @return array|null
+     */
+    public function getMaximumSpendable(string $coin, string $walletId): ?array;
+
+    /**
+     * @param string $coin
+     * @param string $walletId
+     * @return array|null
+     */
+    public function listTraWalletTransfers(string $coin, string $walletId): ?array;
 }

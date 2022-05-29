@@ -5,6 +5,7 @@ namespace Khomeriki\BitgoWallet;
 use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
+use Khomeriki\BitgoWallet\Data\Transfer;
 
 class Wallet implements WalletContract
 {
@@ -125,5 +126,33 @@ class Wallet implements WalletContract
 
             return $wallet;
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sendTransfer(Transfer $transfer): ?array
+    {
+        return $this->adapter->sendTransactionToMany(
+            $this->coin,
+            $this->id,
+            $transfer
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaximumSpendable(): ?array
+    {
+        return $this->adapter->getMaximumSpendable($this->coin, $this->id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTransfers(): ?array
+    {
+        return  $this->adapter->getWalletTransfers($this->coin, $this->id);
     }
 }
