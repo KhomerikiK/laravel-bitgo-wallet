@@ -49,49 +49,72 @@ return [
 ### Generate a wallet with webhooks
 ```php
 use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init('tbtc')
+$wallet = Wallet::init(coin: 'tbtc')
                 ->generate(label: 'wallet label', passphrase: 'password')
                 ->addWebhook(numConfirmations: 0)
                 ->addWebhook(numConfirmations: 1);
+                
+return $wallet;
+```
+### Add webhook on a wallet with custom callback url
+```php
+use Khomeriki\BitgoWallet\Facades\Wallet;
+$wallet = Wallet::init(coin: 'tbtc', id: 'wallet-id')
+                ->addWebhook(
+                    numConfirmations: 3, 
+                    callbackUrl: 'https://your-domain.com/api/callback'
+                );
+                
 return $wallet;
 ```
 
 ### Generate address on  an existing wallet
 ```php
 use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init('tbtc', 'your-wallet-id')
+
+$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
                 ->generateAddress(label: 'address label');
+                
 return $wallet->address;
 ```
 
 ### Check maximum spendable amount on a wallet
 ```php
 use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
+
+$maxSpendable = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
                 ->getMaximumSpendable();
+                
+return $maxSpendable;
 ```
 
 ### Get all the transactions on wallet
 ```php
 use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
+
+$transfers = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
                 ->getTransfers();
+                
+return $transfers;
 ```
 
 ### Get transfer by transfer id
 ```php
 use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
+
+$transfer = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
                 ->getTransfer(transferId: 'transferId');
+                
+return $transfer;
 ```
 
-### Send transaction from a wallet
+### Send transfer from a wallet
 
 ```php
 use Khomeriki\BitgoWallet\Data\TransferRecipients;
 use Khomeriki\BitgoWallet\Data\TransferRecipient;
-use Khomeriki\BitgoWallet\Facades\Wallet;
 use Khomeriki\BitgoWallet\Data\Transfer;
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
 //you can add as many recipients as you need :)
 $transferRecipients = new TransferRecipients(
@@ -102,7 +125,9 @@ $transfer = new Transfer(
     walletPassphrase: 'test',
     transferRecipients: $transferRecipients,
 );
-return Wallet::init('tbtc', 'wallet-id')->sendTransfer($transfer);
+$result = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transfer);
+
+return $result;
 ```
 
 ## Testing
