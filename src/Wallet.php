@@ -97,17 +97,6 @@ class Wallet implements WalletContract
     /**
      * @inheritDoc
      */
-    public function listTransfers(): self
-    {
-        $transfers = $this->adapter->getWalletTransfers($this->coin, $this->id);
-        $this->transfers = $transfers['transfers'] ?? [];
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getTransfer(string $transferId): array
     {
         return $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
