@@ -2,11 +2,13 @@
     "name": "khomerikik/laravel-bitgo-wallet",
     "description": "wallet..",
     "keywords": [
+        "bitgo",
+        "wallet",
+        "crypto",
         "khomeriki",
-        "laravel",
-        "laravel_bitgo_wallet"
+        "laravel"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/KhomerikiK/laravel-bitgo-wallet",
     "license": "MIT",
     "authors": [
         {
