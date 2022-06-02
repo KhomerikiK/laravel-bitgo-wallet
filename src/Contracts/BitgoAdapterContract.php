@@ -70,11 +70,11 @@ interface BitgoAdapterContract
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array;
 
     /**
-     * @param null $coin
+     * @param string|null $coin
      * @param bool $expandBalance
      * @return array|null
      */
-    public function getAllWallets($coin = null, $expandBalance = true): ?array;
+    public function getAllWallets(string $coin = null, bool $expandBalance = true): ?array;
 
     /**
      * @param string $coin
