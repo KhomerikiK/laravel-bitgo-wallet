@@ -22,9 +22,9 @@ class Wallet implements WalletContract
 
     protected BitgoAdapterContract $adapter;
 
-    public function __construct()
+    public function __construct(BitgoAdapterContract $adapter)
     {
-        $this->adapter = app(BitgoAdapterContract::class);
+        $this->adapter = $adapter;
         $this->coin = config('bitgo.default_coin');
         $this->transfers = [];
     }
@@ -110,7 +110,7 @@ class Wallet implements WalletContract
         $wallets = collect($this->adapter->getAllWallets($coin)['wallets'] ?? []);
 
         return $wallets->map(callback: function ($element) {
-            $wallet = new self();
+            $wallet = app('Wallet');
             $wallet->setProperties($element);
 
             return $wallet;

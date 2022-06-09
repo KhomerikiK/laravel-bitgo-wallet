@@ -6,7 +6,6 @@ use Khomeriki\BitgoWallet\Adapters\BitgoAdapter;
 use Khomeriki\BitgoWallet\BitgoServiceProvider;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
-use Khomeriki\BitgoWallet\Wallet;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -19,7 +18,6 @@ class TestCase extends Orchestra
     {
         parent::setUp();
         $this->adapter = new BitgoAdapter();
-        $this->wallet = new Wallet();
         if (config('bitgo.use_mocks')) {
             self::setupMocks();
         }

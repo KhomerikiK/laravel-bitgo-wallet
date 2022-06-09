@@ -23,7 +23,9 @@ class BitgoServiceProvider extends ServiceProvider
         $this->app->bind(BitgoAdapterContract::class, BitgoAdapter::class);
 
         $this->app->bind('Wallet', function () {
-            return new Wallet();
+            return new Wallet(
+                app(BitgoAdapterContract::class)
+            );
         });
     }
 
@@ -34,13 +36,18 @@ class BitgoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $apiUrl = config('bitgo.testnet') ? config('bitgo.testnet_api_url') : config('bitgo.mainnet_api_url');
-        $apiPrefix = config('bitgo.v2_api_prefix');
-        $expressApiUrl = config('bitgo.express_api_url');
-
         $this->publishes([
             __DIR__.'/../config/bitgo.php' => config_path('bitgo.php'),
         ], 'bitgo-config');
+
+        $this->registerHttpMacros();
+    }
+
+    public function registerHttpMacros()
+    {
+        $apiUrl = config('bitgo.testnet') ? config('bitgo.testnet_api_url') : config('bitgo.mainnet_api_url');
+        $apiPrefix = config('bitgo.v2_api_prefix');
+        $expressApiUrl = config('bitgo.express_api_url');
 
         Http::macro('bitgoApi', function () use ($apiUrl, $apiPrefix) {
             return Http::withHeaders([
