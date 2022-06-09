@@ -2,7 +2,6 @@
 
 use Khomeriki\BitgoWallet\Data\Transfer;
 use Khomeriki\BitgoWallet\Data\TransferRecipient;
-use Khomeriki\BitgoWallet\Data\TransferRecipients;
 use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
@@ -53,28 +52,16 @@ it('can build TransferRecipient object', function () {
         ->toHaveProperty('address', 'address');
 });
 
-it('can build TransferRecipients object', function () {
-    $recipient = new TransferRecipient(4934, 'address');
-    $recipient1 = new TransferRecipient(4931, 'address1');
-    $transferRecipients = new TransferRecipients(
-        $recipient,
-        $recipient1
-    );
-    expect($transferRecipients)->toHaveProperty('recipients', [
-        $recipient,
-        $recipient1,
-    ]);
-});
 it('can build transfer object', function () {
     $recipient = new TransferRecipient(4934, 'address');
     $recipient1 = new TransferRecipient(4931, 'address1');
-    $transferRecipients = new TransferRecipients(
-        $recipient,
-        $recipient1
-    );
+
     $transfer = new Transfer(
         walletPassphrase: 'test',
-        transferRecipients: $transferRecipients,
+        transferRecipients: [
+            $recipient,
+            $recipient1,
+        ],
     );
 
     expect($transfer)
@@ -92,12 +79,11 @@ it('can build transfer object', function () {
 });
 
 it('can send transaction', closure: function () {
-    $transferRecipients = new TransferRecipients(
-        new TransferRecipient(4934, 'address'),
-    );
     $transfer = new Transfer(
         walletPassphrase: 'test',
-        transferRecipients: $transferRecipients,
+        transferRecipients: [
+            new TransferRecipient(4934, 'address'),
+        ],
     );
     $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transfer);
     expect($res)->toBeArray();

@@ -111,19 +111,17 @@ return $transfer;
 ### Send transfer from a wallet
 
 ```php
-use Khomeriki\BitgoWallet\Data\TransferRecipients;
 use Khomeriki\BitgoWallet\Data\TransferRecipient;
 use Khomeriki\BitgoWallet\Data\Transfer;
 use Khomeriki\BitgoWallet\Facades\Wallet;
 
 //you can add as many recipients as you need :)
-$transferRecipients = new TransferRecipients(
-    new TransferRecipient(amount: 4934, address: 'address'),
-    new TransferRecipient(amount: 4334, address: 'address1'),
-);
 $transfer = new Transfer(
     walletPassphrase: 'test',
-    transferRecipients: $transferRecipients,
+    transferRecipients: [
+        new TransferRecipient(amount: 4934, address: 'address'),
+        new TransferRecipient(amount: 4334, address: 'address1'),
+    ],
 );
 $result = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transfer);
 
