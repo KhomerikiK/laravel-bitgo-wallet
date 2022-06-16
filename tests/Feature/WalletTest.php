@@ -47,8 +47,8 @@ it('can list all the available wallets', function () {
 
 it('can build TransferRecipient object', function () {
     $recipient = TransferRecipientData::fromArray([
-        'amount'=>4934,
-        'address'=>'address'
+        'amount' => 4934,
+        'address' => 'address',
     ]);
     expect($recipient)
         ->toHaveProperty('amount', 4934)
@@ -60,44 +60,43 @@ it('can build transfer object', function () {
         'walletPassphrase' => 'test',
         'recipients' => [
             TransferRecipientData::fromArray([
-                'amount'=>4934,
-                'address'=>'address'
+                'amount' => 4934,
+                'address' => 'address',
             ]),
             TransferRecipientData::fromArray([
-                'amount'=>4931,
-                'address'=>'address1',
-            ])
-        ]
+                'amount' => 4931,
+                'address' => 'address1',
+            ]),
+        ],
     ]);
 
     expect($transferData)
         ->toHaveProperty('walletPassphrase', 'test')
         ->toHaveProperty('recipients', [
             TransferRecipientData::fromArray([
-                'amount'=>4934,
-                'address'=>'address'
+                'amount' => 4934,
+                'address' => 'address',
             ]),
             TransferRecipientData::fromArray([
-                'amount'=>4931,
-                'address'=>'address1',
+                'amount' => 4931,
+                'address' => 'address1',
             ]),
         ]);
 });
 
 it('can send transaction', closure: function () {
-
     $transferData = TransferData::fromArray([
         'walletPassphrase' => 'test',
         'recipients' => [
             TransferRecipientData::fromArray([
-                'amount'=>333,
-                'address'=>'dddd'
+                'amount' => 333,
+                'address' => 'dddd',
             ]),
             TransferRecipientData::fromArray([
-                'amount'=>333,
-                'address'=>'dddd',
-            ])
-        ]
+                'amount' => 333,
+                'address' => 'dddd',
+            ]),
+        ],
     ]);
 
     $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
