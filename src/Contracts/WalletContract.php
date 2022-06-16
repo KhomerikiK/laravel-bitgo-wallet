@@ -3,7 +3,7 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Support\Collection;
-use Khomeriki\BitgoWallet\Data\Transfer;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 interface WalletContract
 {
@@ -51,10 +51,10 @@ interface WalletContract
     public function listAll(string $coin = null): Collection;
 
     /**
-     * @param Transfer $transfer
+     * @param TransferData $transfer
      * @return array|null
      */
-    public function sendTransfer(Transfer $transfer): ?array;
+    public function sendTransfer(TransferData $transfer): ?array;
 
     /**
      * @return array|null

@@ -5,7 +5,7 @@ namespace Khomeriki\BitgoWallet;
 use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
-use Khomeriki\BitgoWallet\Data\Transfer;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 class Wallet implements WalletContract
 {
@@ -120,7 +120,7 @@ class Wallet implements WalletContract
     /**
      * @inheritDoc
      */
-    public function sendTransfer(Transfer $transfer): ?array
+    public function sendTransfer(TransferData $transfer): ?array
     {
         return $this->adapter->sendTransactionToMany(
             $this->coin,

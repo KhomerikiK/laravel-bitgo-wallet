@@ -46,19 +46,18 @@ class BitgoServiceProvider extends ServiceProvider
     public function registerHttpMacros()
     {
         $apiUrl = config('bitgo.testnet') ? config('bitgo.testnet_api_url') : config('bitgo.mainnet_api_url');
-        $apiPrefix = config('bitgo.v2_api_prefix');
         $expressApiUrl = config('bitgo.express_api_url');
 
-        Http::macro('bitgoApi', function () use ($apiUrl, $apiPrefix) {
+        Http::macro('bitgoApi', function () use ($apiUrl) {
             return Http::withHeaders([
                 'Authorization' => "Bearer " . config('bitgo.api_key'),
-            ])->baseUrl("{$apiUrl}/{$apiPrefix}");
+            ])->baseUrl("{$apiUrl}");
         });
 
-        Http::macro('bitgoExpressApi', function () use ($expressApiUrl, $apiPrefix) {
+        Http::macro('bitgoExpressApi', function () use ($expressApiUrl) {
             return Http::withHeaders([
                 'Authorization' => "Bearer " . config('bitgo.api_key'),
-            ])->baseUrl("{$expressApiUrl}/{$apiPrefix}");
+            ])->baseUrl("{$expressApiUrl}");
         });
     }
 }

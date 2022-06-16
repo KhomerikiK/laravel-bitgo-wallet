@@ -1,7 +1,7 @@
 <?php
 
-use Khomeriki\BitgoWallet\Data\Transfer;
-use Khomeriki\BitgoWallet\Data\TransferRecipient;
+use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\TransferRecipientData;
 use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
@@ -46,45 +46,60 @@ it('can list all the available wallets', function () {
 
 
 it('can build TransferRecipient object', function () {
-    $recipient = new TransferRecipient(4934, 'address');
+    $recipient = TransferRecipientData::fromArray([
+        'amount'=>4934,
+        'address'=>'address'
+    ]);
     expect($recipient)
         ->toHaveProperty('amount', 4934)
         ->toHaveProperty('address', 'address');
 });
 
 it('can build transfer object', function () {
-    $recipient = new TransferRecipient(4934, 'address');
-    $recipient1 = new TransferRecipient(4931, 'address1');
+    $transferData = TransferData::fromArray([
+        'walletPassphrase' => 'test',
+        'recipients' => [
+            TransferRecipientData::fromArray([
+                'amount'=>4934,
+                'address'=>'address'
+            ]),
+            TransferRecipientData::fromArray([
+                'amount'=>4931,
+                'address'=>'address1',
+            ])
+        ]
+    ]);
 
-    $transfer = new Transfer(
-        walletPassphrase: 'test',
-        transferRecipients: [
-            $recipient,
-            $recipient1,
-        ],
-    );
-
-    expect($transfer)
+    expect($transferData)
         ->toHaveProperty('walletPassphrase', 'test')
         ->toHaveProperty('recipients', [
-            [
-                'amount' => 4934,
-                'address' => 'address',
-            ],
-            [
-                'amount' => 4931,
-                'address' => 'address1',
-            ],
+            TransferRecipientData::fromArray([
+                'amount'=>4934,
+                'address'=>'address'
+            ]),
+            TransferRecipientData::fromArray([
+                'amount'=>4931,
+                'address'=>'address1',
+            ]),
         ]);
 });
 
 it('can send transaction', closure: function () {
-    $transfer = new Transfer(
-        walletPassphrase: 'test',
-        transferRecipients: [
-            new TransferRecipient(4934, 'address'),
-        ],
-    );
-    $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transfer);
+
+    $transferData = TransferData::fromArray([
+        'walletPassphrase' => 'test',
+        'recipients' => [
+            TransferRecipientData::fromArray([
+                'amount'=>333,
+                'address'=>'dddd'
+            ]),
+            TransferRecipientData::fromArray([
+                'amount'=>333,
+                'address'=>'dddd',
+            ])
+        ]
+    ]);
+
+    $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
     expect($res)->toBeArray();
 });
