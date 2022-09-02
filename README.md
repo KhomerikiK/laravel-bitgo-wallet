@@ -13,148 +13,251 @@
 
 [comment]: <> (## Installation)
 
-You can install the package via composer:
+Coming soon...
 
-```bash
-composer require khomerikik/laravel-bitgo-wallet
-```
+[//]: # (You can install the package via composer:)
 
-You can publish the config file with:
+[//]: # ()
+[//]: # (```bash)
 
-```bash
-php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoServiceProvider"
-```
+[//]: # (composer require khomerikik/laravel-bitgo-wallet)
 
-This is the contents of the published config file:
+[//]: # (```)
 
-```php
-return [
-    'use_mocks' => env('BITGO_USE_MOCKS', true),//for tests
+[//]: # ()
+[//]: # (You can publish the config file with:)
 
-    'testnet' => env('BITGO_TESTNET', true),
+[//]: # ()
+[//]: # (```bash)
 
-    'api_key' => env('BITGO_API_KEY'),
-    'v2_api_prefix' => 'api/v2/',
-    'testnet_api_url'=>'https://app.bitgo-test.com',
-    'mainnet_api_url'=>'https://app.bitgo.com',
-    'express_api_url' => env('BITGO_EXPRESS_API_URL'),
+[//]: # (php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoServiceProvider")
 
-    'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc'),
-    'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK'),
-];
-```
+[//]: # (```)
 
-## Usage
+[//]: # ()
+[//]: # (This is the contents of the published config file:)
 
-### Generate a wallet with webhooks
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init(coin: 'tbtc')
-                ->generate(label: 'wallet label', passphrase: 'password')
-                ->addWebhook(numConfirmations: 0)
-                ->addWebhook(numConfirmations: 1);
-                
-return $wallet;
-```
-### Add webhook on a wallet with custom callback url
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
-$wallet = Wallet::init(coin: 'tbtc', id: 'wallet-id')
-                ->addWebhook(
-                    numConfirmations: 3, 
-                    callbackUrl: 'https://your-domain.com/api/callback'
-                );
-                
-return $wallet;
-```
+[//]: # ()
+[//]: # (```php)
 
-### Generate address on  an existing wallet
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
+[//]: # (return [)
 
-$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
-                ->generateAddress(label: 'address label');
-                
-return $wallet->address;
-```
+[//]: # (    'use_mocks' => env&#40;'BITGO_USE_MOCKS', true&#41;,//for tests)
 
-### Check maximum spendable amount on a wallet
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
+[//]: # ()
+[//]: # (    'testnet' => env&#40;'BITGO_TESTNET', true&#41;,)
 
-$maxSpendable = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
-                ->getMaximumSpendable();
-                
-return $maxSpendable;
-```
+[//]: # ()
+[//]: # (    'api_key' => env&#40;'BITGO_API_KEY'&#41;,)
 
-### Get all the transactions on wallet
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
+[//]: # (    'v2_api_prefix' => 'api/v2/',)
 
-$transfers = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
-                ->getTransfers();
-                
-return $transfers;
-```
+[//]: # (    'testnet_api_url'=>'https://app.bitgo-test.com',)
 
-### Get transfer by transfer id
-```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
+[//]: # (    'mainnet_api_url'=>'https://app.bitgo.com',)
 
-$transfer = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
-                ->getTransfer(transferId: 'transferId');
-                
-return $transfer;
-```
+[//]: # (    'express_api_url' => env&#40;'BITGO_EXPRESS_API_URL'&#41;,)
 
-### Send transfer from a wallet
+[//]: # ()
+[//]: # (    'default_coin' => env&#40;'BITGO_DEFAULT_COIN', 'tbtc'&#41;,)
 
-```php
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;
+[//]: # (    'webhook_callback_url' => env&#40;'BITGO_WEBHOOK_CALLBACK'&#41;,)
 
-//you can add as many recipients as you need :)
-$recipient = TransferRecipientData::fromArray([
-    'amount' => 4934, 
-    'address' => 'address'
-]);
-$recipientOne = TransferRecipientData::fromArray([
-    'amount' => 4934, 
-    'address' => 'address'
-]);
+[//]: # (];)
 
-$transferData = TransferData::fromArray([
-    'walletPassphrase' => 'test',
-    'recipients' => [$recipient, $recipientOne]
-]);
+[//]: # (```)
 
-$result = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
+[//]: # ()
+[//]: # (## Usage)
 
-return $result;
-```
+[//]: # ()
+[//]: # (### Generate a wallet with webhooks)
 
-## Testing
+[//]: # (```php)
 
-```bash
-composer test
-```
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
 
-## Changelog
+[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc'&#41;)
 
-[comment]: <> (Please see [CHANGELOG]&#40;CHANGELOG.md&#41; for more information on what has changed recently.)
+[//]: # (                ->generate&#40;label: 'wallet label', passphrase: 'password'&#41;)
 
-[comment]: <> (## Contributing)
+[//]: # (                ->addWebhook&#40;numConfirmations: 0&#41;)
 
-[comment]: <> (Please see [CONTRIBUTING]&#40;https://github.com/spatie/.github/blob/main/CONTRIBUTING.md&#41; for details.)
+[//]: # (                ->addWebhook&#40;numConfirmations: 1&#41;;)
 
-[comment]: <> (## Security Vulnerabilities)
+[//]: # (                )
+[//]: # (return $wallet;)
 
-[comment]: <> (Please review [our security policy]&#40;../../security/policy&#41; on how to report security vulnerabilities.)
+[//]: # (```)
 
-## Credits
+[//]: # (### Add webhook on a wallet with custom callback url)
 
-- [KhomerikiK](https://github.com/KhomerikiK)
+[//]: # (```php)
 
-## License
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc', id: 'wallet-id'&#41;)
+
+[//]: # (                ->addWebhook&#40;)
+
+[//]: # (                    numConfirmations: 3, )
+
+[//]: # (                    callbackUrl: 'https://your-domain.com/api/callback')
+
+[//]: # (                &#41;;)
+
+[//]: # (                )
+[//]: # (return $wallet;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Generate address on  an existing wallet)
+
+[//]: # (```php)
+
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ()
+[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+
+[//]: # (                ->generateAddress&#40;label: 'address label'&#41;;)
+
+[//]: # (                )
+[//]: # (return $wallet->address;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Check maximum spendable amount on a wallet)
+
+[//]: # (```php)
+
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ()
+[//]: # ($maxSpendable = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+
+[//]: # (                ->getMaximumSpendable&#40;&#41;;)
+
+[//]: # (                )
+[//]: # (return $maxSpendable;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Get all the transactions on wallet)
+
+[//]: # (```php)
+
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ()
+[//]: # ($transfers = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+
+[//]: # (                ->getTransfers&#40;&#41;;)
+
+[//]: # (                )
+[//]: # (return $transfers;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Get transfer by transfer id)
+
+[//]: # (```php)
+
+[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ()
+[//]: # ($transfer = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+
+[//]: # (                ->getTransfer&#40;transferId: 'transferId'&#41;;)
+
+[//]: # (                )
+[//]: # (return $transfer;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Send transfer from a wallet)
+
+[//]: # ()
+[//]: # (```php)
+
+[//]: # (use Khomeriki\BitgoWallet\Data\Requests\TransferData;use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;)
+
+[//]: # ()
+[//]: # (//you can add as many recipients as you need :&#41;)
+
+[//]: # ($recipient = TransferRecipientData::fromArray&#40;[)
+
+[//]: # (    'amount' => 4934, )
+
+[//]: # (    'address' => 'address')
+
+[//]: # (]&#41;;)
+
+[//]: # ($recipientOne = TransferRecipientData::fromArray&#40;[)
+
+[//]: # (    'amount' => 4934, )
+
+[//]: # (    'address' => 'address')
+
+[//]: # (]&#41;;)
+
+[//]: # ()
+[//]: # ($transferData = TransferData::fromArray&#40;[)
+
+[//]: # (    'walletPassphrase' => 'test',)
+
+[//]: # (    'recipients' => [$recipient, $recipientOne])
+
+[//]: # (]&#41;;)
+
+[//]: # ()
+[//]: # ($result = Wallet::init&#40;'tbtc', 'wallet-id'&#41;->sendTransfer&#40;$transferData&#41;;)
+
+[//]: # ()
+[//]: # (return $result;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Testing)
+
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (composer test)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Changelog)
+
+[//]: # ()
+[//]: # ([comment]: <> &#40;Please see [CHANGELOG]&#40;CHANGELOG.md&#41; for more information on what has changed recently.&#41;)
+
+[//]: # ()
+[//]: # ([comment]: <> &#40;## Contributing&#41;)
+
+[//]: # ()
+[//]: # ([comment]: <> &#40;Please see [CONTRIBUTING]&#40;https://github.com/spatie/.github/blob/main/CONTRIBUTING.md&#41; for details.&#41;)
+
+[//]: # ()
+[//]: # ([comment]: <> &#40;## Security Vulnerabilities&#41;)
+
+[//]: # ()
+[//]: # ([comment]: <> &#40;Please review [our security policy]&#40;../../security/policy&#41; on how to report security vulnerabilities.&#41;)
+
+[//]: # ()
+[//]: # (## Credits)
+
+[//]: # ()
+[//]: # (- [KhomerikiK]&#40;https://github.com/KhomerikiK&#41;)
+
+[//]: # ()
+[//]: # (## License)
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
