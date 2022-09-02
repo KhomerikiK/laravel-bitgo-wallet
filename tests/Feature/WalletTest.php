@@ -16,13 +16,13 @@ it('can generate wallet', function () {
         ->toHaveProperty('id');
 });
 
-it('can get wallet transfer', function () {
+it('can get wallet transfers', function () {
     $transfers = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')
         ->getTransfers();
     expect($transfers)->toBeArray();
 });
 
-it('can get wallet transfers', function () {
+it('can get wallet transfer', function () {
     $transfer = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')
         ->getTransfer('62b1c6168e0b9e0007b421314aba0654');
 
@@ -36,9 +36,7 @@ it('can generate wallet with webhook', function () {
 
     expect($webhook)
         ->toBeObject()
-        ->toBeInstanceOf(Webhook::class)
-        ->toHaveProperty('coin', 'tbtc')
-        ->toHaveProperty('id');
+        ->toBeInstanceOf(Webhook::class);
 });
 
 it('inits wallet correctly', function () {

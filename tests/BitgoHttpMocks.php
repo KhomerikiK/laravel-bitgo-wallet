@@ -16,10 +16,27 @@ trait BitgoHttpMocks
                 'address' => '2NGMqpJLQRYjvGkp9oM3Rgejf1a5tceDzCK',
             ],
         ];
+
+        $webhookData = [
+            'id' => '631272d4358f790007d72487601864cf',
+            'created' => '2022-09-02T21:17:08.805Z',
+            'walletId' => '631272d36334c60007a2a61645fb770f',
+            'coin' => 'tbtc',
+            'type' => 'transfer',
+            'url' => 'https://webhook.site/dd306829-30cb-41c8-a514-13a4a0db4a3b',
+            'version' => 2,
+            'numConfirmations' => 0,
+            'state' => 'active',
+            'successiveFailedAttempts' => 0,
+            'listenToFailureStates' => false,
+            'allToken' => false,
+        ];
         Http::preventStrayRequests();
         $testingUrl = config('bitgo.testnet_api_url').'/'.config('bitgo.v2_api_prefix');
         $expressUrl = config('bitgo.express_api_url').'/'.config('bitgo.v2_api_prefix');
         Http::fake([
+            "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer" => Http::response(['transfers' => [$webhookData]]),
+            "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer/62b1c6168e0b9e0007b421314aba0654" => Http::response($webhookData),
             "{$expressUrl}tbtc/wallet/generate" => Http::response($walletData),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
 
