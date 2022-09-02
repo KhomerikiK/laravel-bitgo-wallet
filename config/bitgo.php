@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'use_mocks' => env('BITGO_USE_MOCKS', true), //for tests
+    'use_mocks' => env('BITGO_USE_MOCKS', false), //for tests
 
     'testnet' => env('BITGO_TESTNET', true),
 
