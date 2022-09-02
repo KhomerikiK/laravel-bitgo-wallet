@@ -50,13 +50,13 @@ class BitgoServiceProvider extends ServiceProvider
 
         Http::macro('bitgoApi', function () use ($apiUrl) {
             return Http::withHeaders([
-                'Authorization' => "Bearer " . config('bitgo.api_key'),
+                'Authorization' => 'Bearer '.config('bitgo.api_key'),
             ])->baseUrl("{$apiUrl}");
         });
 
         Http::macro('bitgoExpressApi', function () use ($expressApiUrl) {
             return Http::withHeaders([
-                'Authorization' => "Bearer " . config('bitgo.api_key'),
+                'Authorization' => 'Bearer '.config('bitgo.api_key'),
             ])->baseUrl("{$expressApiUrl}");
         });
     }

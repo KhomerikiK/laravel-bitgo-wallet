@@ -5,20 +5,216 @@ namespace Khomeriki\BitgoWallet;
 use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
+use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\Responses\Address;
+use Khomeriki\BitgoWallet\Data\Responses\Transfer;
+use Khomeriki\BitgoWallet\Data\Responses\Wallet as WalletData;
+use Khomeriki\BitgoWallet\Data\Responses\Webhook;
 
-class Wallet implements WalletContract
+class Wallet extends WalletData implements WalletContract
 {
+    /**
+     * @var ?string
+     */
     public ?string $id;
+
+    /**
+     * Ids of users with access to the wallet
+     *
+     * @var array
+     */
+    public array $users;
+
+    /**
+     * Name of the blockchain the wallet is on
+     *
+     * @var string
+     */
     public string $coin;
-    public ?array $wallet;
-    public ?string $address;
-    public ?array $receiveAddress;
-    public ?int $balance;
-    public ?int $confirmedBalance;
-    public ?int $spendableBalance;
-    public array $transfers;
-    public ?string $error;
+
+    /**
+     * Name the user assigned to the wallet
+     *
+     * @var string
+     */
+    public string $label;
+
+    /**
+     * Number of signatures required for the wallet to send
+     *
+     * @var int
+     */
+    public int $m;
+
+    /**
+     * Number of signers on the wallet
+     *
+     * @var int
+     */
+    public int $n;
+
+    /**
+     * @var array<string>
+     */
+    public array $keys;
+
+    /**
+     * @var array
+     */
+    public array $keySignatures;
+
+    /**
+     * Tags set on the wallet
+     *
+     * @var array<string>
+     */
+    public array $tags;
+
+    /**
+     * @var array
+     */
+    public array $receiveAddress;
+
+    /**
+     * Wallet balance as number
+     *
+     * @var int
+     */
+    public int $balance;
+
+    /**
+     * Wallet balance as string
+     *
+     * @var string
+     */
+    public string $balanceString;
+
+    /**
+     * Confirmed wallet balance as number
+     *
+     * @var int
+     */
+    public int $confirmedBalance;
+
+    /**
+     * Confirmed wallet balance as string
+     *
+     * @var string
+     */
+    public string $confirmedBalanceString;
+
+    /**
+     * Spendable wallet balance as number
+     *
+     * @var int
+     */
+    public int $spendableBalance;
+
+    /**
+     * Spendable wallet balance as string
+     *
+     * @var string
+     */
+    public string $spendableBalanceString;
+
+    /**
+     * Flag which indicates the wallet has been deleted
+     *
+     * @var bool
+     */
+    public bool $deleted;
+
+    /**
+     * Flag for identifying cold wallets
+     *
+     * @var bool
+     */
+    public bool $isCold;
+
+    /**
+     * Freeze state (used to stop the wallet from spending)
+     *
+     * @var array
+     */
+    public array $freezy;
+
+    /**
+     * Flag for disabling wallet transaction notifications
+     *
+     * @var bool
+     */
+    public bool $disableTransactionNotifications;
+
+    /**
+     * Admin data (wallet policies)
+     *
+     * @var array
+     */
+    public array $admin;
+
+    /**
+     * Flag for allowing signing with backup key
+     *
+     * @var int
+     */
+    public int $approvalsRequired;
+
+    /**
+     * Pending approvals on the wallet
+     *
+     * @var array
+     */
+    public array $pendingApprovals;
+
+    /**
+     * Flag for allowing signing with backup key
+     *
+     * @var bool
+     */
+    public bool $allowBackupKeySigning;
+
+    /**
+     * Coin-specific data
+     *
+     * @var array
+     */
+    public array $coinSpecific;
+
+    /**
+     * @var array<string>
+     */
+    public array $clientFlags;
+
+    /**
+     * Flag indicating whether this wallet's user key is recoverable with the passphrase held by the user.
+     *
+     * @var bool
+     */
+    public bool $recoverable;
+
+    /**
+     * Time when this wallet was created
+     *
+     * @var string date-time
+     */
+    public string $startDate;
+
+    /**
+     * Flag indicating that this wallet is large (more than 100,000 addresses).
+     * If this is set, some APIs may omit properties which are expensive to calculate
+     * for wallets with many addresses (for example, the total address counts returned by the List Addresses API).
+     *
+     * @var bool
+     */
+    public bool $hasLargeNumberOfAddresses;
+
+    /**
+     * Custom configuration options for this wallet
+     *
+     * @var array
+     */
+    public array $config;
 
     protected BitgoAdapterContract $adapter;
 
@@ -26,42 +222,46 @@ class Wallet implements WalletContract
     {
         $this->adapter = $adapter;
         $this->coin = config('bitgo.default_coin');
-        $this->transfers = [];
     }
 
     private function setProperties(array $propertyList)
     {
         foreach ($propertyList as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
+            $this->$key = $value;
         }
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function init(string $coin, string $id = null): self
     {
-        $this->id = $id;
         $this->coin = $coin;
+        $this->id = $id;
 
         return $this;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function generate(string $label, string $passphrase): self
+    public function generate(string $label, string $passphrase, array $options = []): self
     {
-        $wallet = $this->adapter->generateWallet($this->coin, $label, $passphrase);
+        $options = array_merge([
+            'label' => $label,
+            'passphrase' => $passphrase,
+        ], $options);
+
+        $generateWalletData = GenerateWallet::fromArray($options);
+
+        $wallet = $this->adapter->generateWallet($this->coin, $generateWalletData);
         $this->setProperties($wallet);
 
         return $this;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function get(): self
     {
@@ -72,38 +272,37 @@ class Wallet implements WalletContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): self
+    public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): Webhook
     {
         $webhook = $this->adapter->addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
-        $this->error = $webhook['error'] ?? null;
 
-        return $this;
+        return Webhook::fromArray($webhook);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function generateAddress(string $label = null): self
+    public function generateAddress(string $label = null): Address
     {
         $address = $this->adapter->generaAddressOnWallet($this->coin, $this->id, $label);
-        $this->error = $address['error'] ?? null;
-        $this->address = $address['address'] ?? null;
 
-        return $this;
+        return Address::fromArray($address);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function getTransfer(string $transferId): array
+    public function getTransfer(string $transferId): Transfer
     {
-        return $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
+        $transfer = $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
+
+        return Transfer::fromArray($transfer);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function listAll(string $coin = null): Collection
     {
@@ -118,7 +317,7 @@ class Wallet implements WalletContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function sendTransfer(TransferData $transfer): ?array
     {
@@ -130,7 +329,7 @@ class Wallet implements WalletContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getMaximumSpendable(): ?array
     {
@@ -138,10 +337,14 @@ class Wallet implements WalletContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTransfers(): ?array
     {
-        return  $this->adapter->getWalletTransfers($this->coin, $this->id);
+        $walletTransfers = $this->adapter->getWalletTransfers($this->coin, $this->id);
+
+        return array_map(function ($item) {
+            return Transfer::fromArray($item);
+        }, $walletTransfers['transfers']);
     }
 }

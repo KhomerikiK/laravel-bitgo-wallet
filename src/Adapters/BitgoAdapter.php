@@ -4,16 +4,18 @@ namespace Khomeriki\BitgoWallet\Adapters;
 
 use Illuminate\Http\Client\Response;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
+use Khomeriki\BitgoWallet\Data\Requests\TransferData;
 use Khomeriki\BitgoWallet\Traits\InteractsWithBitgo;
 
 class BitgoAdapter implements BitgoAdapterContract
 {
     use InteractsWithBitgo;
-    public const API_PREFIX = "api/v2/";
+
+    public const API_PREFIX = 'api/v2/';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function me(): Response
     {
@@ -21,7 +23,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pingExpress(): Response
     {
@@ -29,7 +31,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function ping(): Response
     {
@@ -37,21 +39,18 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function generateWallet(string $coin, string $label, string $passphrase): ?array
+    public function generateWallet(string $coin, GenerateWallet $generateWalletData): ?array
     {
         $endpoint = "$coin/wallet/generate";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, [
-            'label' => $label,
-            'passphrase' => $passphrase,
-        ]);
+        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $generateWalletData->toArray());
 
         return $response->json();
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getWallet(string $coin, ?string $walletId): ?array
     {
@@ -62,7 +61,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
     {
@@ -73,14 +72,14 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array
     {
         $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, [
-            'type' => 'transfer',//TODO::should be dynamic
+            'type' => 'transfer', //TODO::should be dynamic
             'url' => $callbackUrl,
             'numConfirmations' => $numConfirmations,
         ]);
@@ -89,7 +88,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getWalletTransfers(string $coin, string $walletId): ?array
     {
@@ -100,7 +99,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
     {
@@ -111,10 +110,11 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getAllWallets(string $coin = null, bool $expandBalance = true): ?array
     {
+        $expandBalance = json_encode($expandBalance);
         $endpoint = "wallets?expandBalance=$expandBalance&coin=$coin";
         $response = $this->httpGet(self::API_PREFIX.$endpoint);
 
@@ -122,11 +122,11 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function sendTransactionToMany(string $coin, string $walletId, TransferData $transfer): ?array
     {
-        $body = (array)$transfer;
+        $body = (array) $transfer;
         $endpoint = "$coin/wallet/$walletId/sendmany";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $body);
 
@@ -134,7 +134,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getMaximumSpendable(string $coin, string $walletId): ?array
     {
@@ -145,7 +145,7 @@ class BitgoAdapter implements BitgoAdapterContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function listTraWalletTransfers(string $coin, string $walletId): ?array
     {

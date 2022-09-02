@@ -2,16 +2,15 @@
 
 namespace Khomeriki\BitgoWallet\Data;
 
-use JetBrains\PhpStorm\Pure;
-
 abstract class Data
 {
     /**
      * convert data from array to object
-     * @param array $payload
+     *
+     * @param  array  $payload
      * @return static
      */
-    #[Pure] public static function fromArray(array $payload): static
+    public static function fromArray(array $payload): static
     {
         $dataClass = static::class;
         $dto = new $dataClass();
@@ -20,20 +19,22 @@ abstract class Data
                 $dto->$key = $value;
             }
         }
+
         return $dto;
     }
 
     /**
      * convert data object to array
+     *
      * @return array
      */
     public function toArray(): array
     {
-        $arr = (array)$this;
+        $arr = (array) $this;
         array_walk_recursive($arr, function (&$item) {
             if (is_object($item)) {
                 $item->toArray();
-                $item = (array)$item;
+                $item = (array) $item;
             }
         });
 

@@ -21,10 +21,12 @@
         "guzzlehttp/guzzle": "^7.4",
         "illuminate/contracts": "^9.0",
         "illuminate/support": "^9.11",
-        "spatie/laravel-package-tools": "^1.9.2"
+        "spatie/laravel-package-tools": "^1.9.2",
+      "ext-readline": "*"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
+        "laravel/pint": "^1.1",
         "launchdarkly/launchdarkly-php": "^4.2",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 trait InteractsWithBitgo
 {
     /**
-     * @param string $endpoint
+     * @param  string  $endpoint
      * @return Response
      */
     protected static function httpGet(string $endpoint): Response
@@ -18,8 +18,8 @@ trait InteractsWithBitgo
     }
 
     /**
-     * @param string $endpoint
-     * @param array $data
+     * @param  string  $endpoint
+     * @param  array  $data
      * @return Response
      */
     protected static function httPost(string $endpoint, array $data): Response
@@ -29,8 +29,8 @@ trait InteractsWithBitgo
     }
 
     /**
-     * @param string $endpoint
-     * @param array $data
+     * @param  string  $endpoint
+     * @param  array  $data
      * @return Response
      */
     protected static function httpPostExpress(string $endpoint, array $data): Response
@@ -40,7 +40,7 @@ trait InteractsWithBitgo
     }
 
     /**
-     * @param string $endpoint
+     * @param  string  $endpoint
      * @return Response
      */
     protected static function httpGetExpress(string $endpoint): Response

@@ -3,23 +3,26 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Support\Collection;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\Responses\Address;
+use Khomeriki\BitgoWallet\Data\Responses\Transfer;
+use Khomeriki\BitgoWallet\Data\Responses\Webhook;
 
 interface WalletContract
 {
     /**
-     * @param string $coin
-     * @param string|null $id
+     * @param  string  $coin
+     * @param  string|null  $id
      * @return $this
      */
     public function init(string $coin, string $id = null): self;
 
     /**
-     * @param string $label
-     * @param string $passphrase
+     * @param  string  $label
+     * @param  string  $passphrase
      * @return $this
      */
-    public function generate(string $label, string $passphrase): self;
+    public function generate(string $label, string $passphrase, array $options = []): self;
 
     /**
      * @return $this
@@ -27,31 +30,31 @@ interface WalletContract
     public function get(): self;
 
     /**
-     * @param int $numConfirmations
-     * @return $this
+     * @param  int  $numConfirmations
+     * @return Webhook
      */
-    public function addWebhook(int $numConfirmations = 0): self;
+    public function addWebhook(int $numConfirmations = 0): Webhook;
 
     /**
-     * @param string|null $label
-     * @return $this
+     * @param  string|null  $label
+     * @return Address
      */
-    public function generateAddress(string $label = null): self;
+    public function generateAddress(string $label = null): Address;
 
     /**
-     * @param string $transferId
-     * @return array
+     * @param  string  $transferId
+     * @return Transfer
      */
-    public function getTransfer(string $transferId): array;
+    public function getTransfer(string $transferId): Transfer;
 
     /**
-     * @param string|null $coin
+     * @param  string|null  $coin
      * @return Collection
      */
     public function listAll(string $coin = null): Collection;
 
     /**
-     * @param TransferData $transfer
+     * @param  TransferData  $transfer
      * @return array|null
      */
     public function sendTransfer(TransferData $transfer): ?array;

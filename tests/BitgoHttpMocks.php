@@ -17,8 +17,8 @@ trait BitgoHttpMocks
             ],
         ];
         Http::preventStrayRequests();
-        $testingUrl = config('bitgo.testnet_api_url') .'/'. config('bitgo.v2_api_prefix');
-        $expressUrl = config('bitgo.express_api_url') .'/'. config('bitgo.v2_api_prefix');
+        $testingUrl = config('bitgo.testnet_api_url').'/'.config('bitgo.v2_api_prefix');
+        $expressUrl = config('bitgo.express_api_url').'/'.config('bitgo.v2_api_prefix');
         Http::fake([
             "{$expressUrl}tbtc/wallet/generate" => Http::response($walletData),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
