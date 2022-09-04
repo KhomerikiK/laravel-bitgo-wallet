@@ -90,9 +90,10 @@ class BitgoAdapter implements BitgoAdapterContract
     /**
      * {@inheritDoc}
      */
-    public function getWalletTransfers(string $coin, string $walletId): ?array
+    public function getWalletTransfers(string $coin, string $walletId, ?array $params = []): ?array
     {
-        $endpoint = "$coin/wallet/$walletId/transfer";
+        $query = http_build_query($params);
+        $endpoint = "$coin/wallet/$walletId/transfer?$query";
         $response = $this->httpGet(self::API_PREFIX.$endpoint);
 
         return $response->json();

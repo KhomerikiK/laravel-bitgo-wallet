@@ -339,9 +339,9 @@ class Wallet extends WalletData implements WalletContract
     /**
      * {@inheritDoc}
      */
-    public function getTransfers(): ?array
+    public function getTransfers(?array $params = []): ?array
     {
-        $walletTransfers = $this->adapter->getWalletTransfers($this->coin, $this->id);
+        $walletTransfers = $this->adapter->getWalletTransfers($this->coin, $this->id, $params);
 
         return array_map(function ($item) {
             return Transfer::fromArray($item);

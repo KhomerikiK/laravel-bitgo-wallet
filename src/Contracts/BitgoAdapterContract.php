@@ -57,9 +57,10 @@ interface BitgoAdapterContract
     /**
      * @param  string  $coin
      * @param  string  $walletId
+     * @param  array|null  $params
      * @return array|null
      */
-    public function getWalletTransfers(string $coin, string $walletId): ?array;
+    public function getWalletTransfers(string $coin, string $walletId, ?array $params = []): ?array;
 
     /**
      * @param  string  $coin
