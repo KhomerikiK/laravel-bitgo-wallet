@@ -31,6 +31,24 @@ trait BitgoHttpMocks
             'listenToFailureStates' => false,
             'allToken' => false,
         ];
+        $exchangeRateMock = [
+            'marketData' => [
+                [
+                    'blockchain' => [
+                        'cacheTime' => 1662827616853,
+                        'totalbc' => 19146787.5,
+                        'transactions' => 258193,
+                    ],
+                    'currencies' => [
+                        'EUR' => [
+                            '24h_avg' => 60.8404113,
+                        ],
+                    ],
+                    'coin' => 'tltc',
+                ],
+            ],
+        ];
+
         Http::preventStrayRequests();
         $testingUrl = config('bitgo.testnet_api_url').'/'.config('bitgo.v2_api_prefix');
         $expressUrl = config('bitgo.express_api_url').'/'.config('bitgo.v2_api_prefix');
@@ -39,6 +57,7 @@ trait BitgoHttpMocks
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer/62b1c6168e0b9e0007b421314aba0654" => Http::response($webhookData),
             "{$expressUrl}tbtc/wallet/generate" => Http::response($walletData),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
+            "{$testingUrl}market/latest*" => Http::response($exchangeRateMock),
 
             "{$expressUrl}tbtc/wallet/wallet-id/address" => Http::response([]),
             "{$expressUrl}tbtc/wallet/wallet-id/webhooks" => Http::response([]),

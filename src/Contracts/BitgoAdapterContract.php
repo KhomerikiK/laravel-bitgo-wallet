@@ -14,6 +14,12 @@ interface BitgoAdapterContract
     public function me(): Response;
 
     /**
+     * @param  string|null  $coin
+     * @return array|null
+     */
+    public function getExchangeRates(string $coin = null): ?array;
+
+    /**
      * @return Response
      */
     public function pingExpress(): Response;

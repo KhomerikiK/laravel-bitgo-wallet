@@ -27,6 +27,12 @@ class BitgoServiceProvider extends ServiceProvider
                 app(BitgoAdapterContract::class)
             );
         });
+
+        $this->app->bind('ExchangeRate', function () {
+            return new ExchangeRate(
+                app(BitgoAdapterContract::class)
+            );
+        });
     }
 
     /**

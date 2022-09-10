@@ -25,6 +25,17 @@ class BitgoAdapter implements BitgoAdapterContract
     /**
      * {@inheritDoc}
      */
+    public function getExchangeRates(string $coin = null): ?array
+    {
+        $coinFilter = $coin ? "coin=$coin" : '';
+        $response = $this->httpGet(self::API_PREFIX.'market/latest?'.$coinFilter);
+
+        return $response->json();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function pingExpress(): Response
     {
         return $this->httpGetExpress(self::API_PREFIX.'ping');
