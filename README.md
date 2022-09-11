@@ -13,251 +13,202 @@
 
 [comment]: <> (## Installation)
 
-Coming soon...
 
-[//]: # (You can install the package via composer:)
+You can install the package via composer:
 
-[//]: # ()
-[//]: # (```bash)
 
-[//]: # (composer require khomerikik/laravel-bitgo-wallet)
+```bash
 
-[//]: # (```)
+composer require khomerikik/laravel-bitgo-wallet
 
-[//]: # ()
-[//]: # (You can publish the config file with:)
+```
 
-[//]: # ()
-[//]: # (```bash)
 
-[//]: # (php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoServiceProvider")
+You can publish the config file with:
 
-[//]: # (```)
 
-[//]: # ()
-[//]: # (This is the contents of the published config file:)
+```bash
 
-[//]: # ()
-[//]: # (```php)
+php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoServiceProvider"
 
-[//]: # (return [)
+```
 
-[//]: # (    'use_mocks' => env&#40;'BITGO_USE_MOCKS', true&#41;,//for tests)
 
-[//]: # ()
-[//]: # (    'testnet' => env&#40;'BITGO_TESTNET', true&#41;,)
+This is the contents of the published config file:
 
-[//]: # ()
-[//]: # (    'api_key' => env&#40;'BITGO_API_KEY'&#41;,)
 
-[//]: # (    'v2_api_prefix' => 'api/v2/',)
+## Usage
 
-[//]: # (    'testnet_api_url'=>'https://app.bitgo-test.com',)
 
-[//]: # (    'mainnet_api_url'=>'https://app.bitgo.com',)
+### Generate a wallet with webhooks
 
-[//]: # (    'express_api_url' => env&#40;'BITGO_EXPRESS_API_URL'&#41;,)
+```php
 
-[//]: # ()
-[//]: # (    'default_coin' => env&#40;'BITGO_DEFAULT_COIN', 'tbtc'&#41;,)
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (    'webhook_callback_url' => env&#40;'BITGO_WEBHOOK_CALLBACK'&#41;,)
+$wallet = Wallet::init(coin: 'tbtc')
 
-[//]: # (];)
+                ->generate(label: 'wallet label', passphrase: 'password')
 
-[//]: # (```)
+                ->addWebhook(numConfirmations: 0)
 
-[//]: # ()
-[//]: # (## Usage)
+                ->addWebhook(numConfirmations: 1);
 
-[//]: # ()
-[//]: # (### Generate a wallet with webhooks)
+                
+return $wallet;
 
-[//]: # (```php)
+```
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+### Add webhook on a wallet with custom callback url
 
-[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc'&#41;)
+```php
 
-[//]: # (                ->generate&#40;label: 'wallet label', passphrase: 'password'&#41;)
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (                ->addWebhook&#40;numConfirmations: 0&#41;)
+$wallet = Wallet::init(coin: 'tbtc', id: 'wallet-id')
 
-[//]: # (                ->addWebhook&#40;numConfirmations: 1&#41;;)
+                ->addWebhook(
 
-[//]: # (                )
-[//]: # (return $wallet;)
+                    numConfirmations: 3, 
 
-[//]: # (```)
+                    callbackUrl: 'https://your-domain.com/api/callback'
 
-[//]: # (### Add webhook on a wallet with custom callback url)
+                );
 
-[//]: # (```php)
+                
+return $wallet;
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+```
 
-[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc', id: 'wallet-id'&#41;)
 
-[//]: # (                ->addWebhook&#40;)
+### Generate address on  an existing wallet
 
-[//]: # (                    numConfirmations: 3, )
+```php
 
-[//]: # (                    callbackUrl: 'https://your-domain.com/api/callback')
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (                &#41;;)
 
-[//]: # (                )
-[//]: # (return $wallet;)
+$wallet = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
 
-[//]: # (```)
+                ->generateAddress(label: 'address label');
 
-[//]: # ()
-[//]: # (### Generate address on  an existing wallet)
+                
+return $wallet->address;
 
-[//]: # (```php)
+```
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
 
-[//]: # ()
-[//]: # ($wallet = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+### Check maximum spendable amount on a wallet
 
-[//]: # (                ->generateAddress&#40;label: 'address label'&#41;;)
+```php
 
-[//]: # (                )
-[//]: # (return $wallet->address;)
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (```)
 
-[//]: # ()
-[//]: # (### Check maximum spendable amount on a wallet)
+$maxSpendable = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
 
-[//]: # (```php)
+                ->getMaximumSpendable();
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+                
+return $maxSpendable;
 
-[//]: # ()
-[//]: # ($maxSpendable = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+```
 
-[//]: # (                ->getMaximumSpendable&#40;&#41;;)
 
-[//]: # (                )
-[//]: # (return $maxSpendable;)
+### Get all the transactions on wallet
 
-[//]: # (```)
+```php
 
-[//]: # ()
-[//]: # (### Get all the transactions on wallet)
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (```php)
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+$transfers = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
 
-[//]: # ()
-[//]: # ($transfers = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
+                ->getTransfers();
 
-[//]: # (                ->getTransfers&#40;&#41;;)
+                
+return $transfers;
 
-[//]: # (                )
-[//]: # (return $transfers;)
+```
 
-[//]: # (```)
 
-[//]: # ()
-[//]: # (### Get transfer by transfer id)
+### Get transfer by transfer id
 
-[//]: # (```php)
+```php
 
-[//]: # (use Khomeriki\BitgoWallet\Facades\Wallet;)
+use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # ()
-[//]: # ($transfer = Wallet::init&#40;coin: 'tbtc', id: 'your-wallet-id'&#41;)
 
-[//]: # (                ->getTransfer&#40;transferId: 'transferId'&#41;;)
+$transfer = Wallet::init(coin: 'tbtc', id: 'your-wallet-id')
 
-[//]: # (                )
-[//]: # (return $transfer;)
+                ->getTransfer(transferId: 'transferId');
 
-[//]: # (```)
+                
+return $transfer;
 
-[//]: # ()
-[//]: # (### Send transfer from a wallet)
+```
 
-[//]: # ()
-[//]: # (```php)
 
-[//]: # (use Khomeriki\BitgoWallet\Data\Requests\TransferData;use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;)
+### Send transfer from a wallet
 
-[//]: # ()
-[//]: # (//you can add as many recipients as you need :&#41;)
 
-[//]: # ($recipient = TransferRecipientData::fromArray&#40;[)
+```php
 
-[//]: # (    'amount' => 4934, )
+use Khomeriki\BitgoWallet\Data\Requests\TransferData;use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;
 
-[//]: # (    'address' => 'address')
 
-[//]: # (]&#41;;)
+//you can add as many recipients as you need :)
 
-[//]: # ($recipientOne = TransferRecipientData::fromArray&#40;[)
+$recipient = TransferRecipientData::fromArray([
 
-[//]: # (    'amount' => 4934, )
+    'amount' => 4934, 
 
-[//]: # (    'address' => 'address')
+    'address' => 'address'
 
-[//]: # (]&#41;;)
+]);
 
-[//]: # ()
-[//]: # ($transferData = TransferData::fromArray&#40;[)
+$recipientOne = TransferRecipientData::fromArray([
 
-[//]: # (    'walletPassphrase' => 'test',)
+    'amount' => 4934, 
 
-[//]: # (    'recipients' => [$recipient, $recipientOne])
+    'address' => 'address'
 
-[//]: # (]&#41;;)
+]);
 
-[//]: # ()
-[//]: # ($result = Wallet::init&#40;'tbtc', 'wallet-id'&#41;->sendTransfer&#40;$transferData&#41;;)
 
-[//]: # ()
-[//]: # (return $result;)
+$transferData = TransferData::fromArray([
 
-[//]: # (```)
+    'walletPassphrase' => 'test',
 
-[//]: # ()
-[//]: # (## Testing)
+    'recipients' => [$recipient, $recipientOne]
 
-[//]: # ()
-[//]: # (```bash)
+]);
 
-[//]: # (composer test)
 
-[//]: # (```)
+$result = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
 
-[//]: # ()
-[//]: # (## Changelog)
 
-[//]: # ()
-[//]: # ([comment]: <> &#40;Please see [CHANGELOG]&#40;CHANGELOG.md&#41; for more information on what has changed recently.&#41;)
+return $result;
 
-[//]: # ()
-[//]: # ([comment]: <> &#40;## Contributing&#41;)
+```
 
-[//]: # ()
-[//]: # ([comment]: <> &#40;Please see [CONTRIBUTING]&#40;https://github.com/spatie/.github/blob/main/CONTRIBUTING.md&#41; for details.&#41;)
 
-[//]: # ()
-[//]: # ([comment]: <> &#40;## Security Vulnerabilities&#41;)
+## Testing
 
-[//]: # ()
-[//]: # ([comment]: <> &#40;Please review [our security policy]&#40;../../security/policy&#41; on how to report security vulnerabilities.&#41;)
 
-[//]: # ()
-[//]: # (## Credits)
+```bash
 
-[//]: # ()
-[//]: # (- [KhomerikiK]&#40;https://github.com/KhomerikiK&#41;)
+composer test
 
-[//]: # ()
-[//]: # (## License)
+```
+
+
+## Credits
+
+
+- [KhomerikiK](https://github.com/KhomerikiK)
+
+
+## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
