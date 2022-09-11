@@ -304,9 +304,9 @@ class Wallet extends WalletData implements WalletContract
     /**
      * {@inheritDoc}
      */
-    public function listAll(string $coin = null): Collection
+    public function listAll(string $coin = null, ?array $params = []): Collection
     {
-        $wallets = collect($this->adapter->getAllWallets($coin)['wallets'] ?? []);
+        $wallets = collect($this->adapter->getAllWallets($coin, $params)['wallets'] ?? []);
 
         return $wallets->map(callback: function ($element) {
             $wallet = app('Wallet');

@@ -48,7 +48,9 @@ it('inits wallet correctly', function () {
 });
 
 it('can list all the available wallets', function () {
-    $wallets = Wallet::listAll();
+    $wallets = Wallet::listAll(params:[
+        'expandBalance' => 'true',
+    ]);
     $wallet = $wallets->first();
     expect($wallet)
         ->toBeInstanceOf(\Khomeriki\BitgoWallet\Wallet::class)

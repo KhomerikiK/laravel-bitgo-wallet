@@ -124,10 +124,12 @@ class BitgoAdapter implements BitgoAdapterContract
     /**
      * {@inheritDoc}
      */
-    public function getAllWallets(string $coin = null, bool $expandBalance = true): ?array
+    public function getAllWallets(string $coin = null, ?array $params = []): ?array
     {
-        $expandBalance = json_encode($expandBalance);
-        $endpoint = "wallets?expandBalance=$expandBalance&coin=$coin";
+        $params['coin'] = $coin;
+        $query = http_build_query($params);
+
+        $endpoint = "wallets?$query";
         $response = $this->httpGet(self::API_PREFIX.$endpoint);
 
         return $response->json();

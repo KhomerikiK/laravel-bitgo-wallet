@@ -78,10 +78,10 @@ interface BitgoAdapterContract
 
     /**
      * @param  string|null  $coin
-     * @param  bool  $expandBalance
+     * @param  array|null  $params
      * @return array|null
      */
-    public function getAllWallets(string $coin = null, bool $expandBalance = true): ?array;
+    public function getAllWallets(string $coin = null, ?array $params = []): ?array;
 
     /**
      * @param  string  $coin

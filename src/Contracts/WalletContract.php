@@ -49,9 +49,10 @@ interface WalletContract
 
     /**
      * @param  string|null  $coin
+     * @param  array|null  $params
      * @return Collection
      */
-    public function listAll(string $coin = null): Collection;
+    public function listAll(string $coin = null, ?array $params = []): Collection;
 
     /**
      * @param  TransferData  $transfer
