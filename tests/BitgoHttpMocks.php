@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 trait BitgoHttpMocks
 {
-    public static function setupMocks()
+    public static function setupMocks(): void
     {
         $walletData = [
             'id' => 'wallet-id',

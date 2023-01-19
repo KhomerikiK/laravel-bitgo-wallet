@@ -20,18 +20,11 @@ class ExchangeRate
         $this->coin = config('bitgo.default_coin');
     }
 
-    /**
-     * @return array|null
-     */
     public function all(): ?array
     {
         return $this->adapter->getExchangeRates();
     }
 
-    /**
-     * @param  string|null  $coin
-     * @return array|null
-     */
     public function getByCoin(?string $coin = null): ?array
     {
         $rates = $this->adapter->getExchangeRates($coin);

@@ -14,17 +14,11 @@ class BitgoAdapter implements BitgoAdapterContract
 
     public const API_PREFIX = 'api/v2/';
 
-    /**
-     * {@inheritDoc}
-     */
     public function me(): Response
     {
         return $this->httpGet(self::API_PREFIX.'user/me');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getExchangeRates(string $coin = null): ?array
     {
         $coinFilter = $coin ? "coin=$coin" : '';
@@ -33,25 +27,16 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function pingExpress(): Response
     {
         return $this->httpGetExpress(self::API_PREFIX.'ping');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function ping(): Response
     {
         return $this->httpGet(self::API_PREFIX.'ping');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generateWallet(string $coin, GenerateWallet $generateWalletData): ?array
     {
         $endpoint = "$coin/wallet/generate";
@@ -60,9 +45,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getWallet(string $coin, ?string $walletId): ?array
     {
         $endpoint = "$coin/wallet/{$walletId}";
@@ -71,9 +53,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
     {
         $endpoint = "$coin/wallet/$walletId/address";
@@ -82,9 +61,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array
     {
         $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
@@ -98,9 +74,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getWalletTransfers(string $coin, string $walletId, ?array $params = []): ?array
     {
         $query = http_build_query($params);
@@ -110,9 +83,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer/$transferId";
@@ -121,9 +91,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAllWallets(string $coin = null, ?array $params = []): ?array
     {
         $params['coin'] = $coin;
@@ -135,9 +102,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sendTransactionToMany(string $coin, string $walletId, TransferData $transfer): ?array
     {
         $body = (array) $transfer;
@@ -147,9 +111,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMaximumSpendable(string $coin, string $walletId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/maximumSpendable";
@@ -158,9 +119,6 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function listTraWalletTransfers(string $coin, string $walletId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer";

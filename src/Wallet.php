@@ -14,9 +14,6 @@ use Khomeriki\BitgoWallet\Data\Responses\Webhook;
 
 class Wallet extends WalletData implements WalletContract
 {
-    /**
-     * @var ?string
-     */
     public ?string $id;
 
     /**
@@ -231,9 +228,6 @@ class Wallet extends WalletData implements WalletContract
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function init(string $coin, string $id = null): self
     {
         $this->coin = $coin;
@@ -242,9 +236,6 @@ class Wallet extends WalletData implements WalletContract
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generate(string $label, string $passphrase, array $options = []): self
     {
         $options = array_merge([
@@ -260,9 +251,6 @@ class Wallet extends WalletData implements WalletContract
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get(): self
     {
         $wallet = $this->adapter->getWallet($this->coin, $this->id);
@@ -271,9 +259,6 @@ class Wallet extends WalletData implements WalletContract
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): Webhook
     {
         $webhook = $this->adapter->addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
@@ -281,9 +266,6 @@ class Wallet extends WalletData implements WalletContract
         return Webhook::fromArray($webhook);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generateAddress(string $label = null): Address
     {
         $address = $this->adapter->generaAddressOnWallet($this->coin, $this->id, $label);
@@ -291,9 +273,6 @@ class Wallet extends WalletData implements WalletContract
         return Address::fromArray($address);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getTransfer(string $transferId): Transfer
     {
         $transfer = $this->adapter->getWalletTransfer($this->coin, $this->id, $transferId);
@@ -301,9 +280,6 @@ class Wallet extends WalletData implements WalletContract
         return Transfer::fromArray($transfer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function listAll(string $coin = null, ?array $params = []): Collection
     {
         $wallets = collect($this->adapter->getAllWallets($coin, $params)['wallets'] ?? []);
@@ -316,9 +292,6 @@ class Wallet extends WalletData implements WalletContract
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sendTransfer(TransferData $transfer): ?array
     {
         return $this->adapter->sendTransactionToMany(
@@ -328,17 +301,11 @@ class Wallet extends WalletData implements WalletContract
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMaximumSpendable(): ?array
     {
         return $this->adapter->getMaximumSpendable($this->coin, $this->id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getTransfers(?array $params = []): ?array
     {
         $walletTransfers = $this->adapter->getWalletTransfers($this->coin, $this->id, $params);
