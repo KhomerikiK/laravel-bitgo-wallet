@@ -6,9 +6,6 @@ abstract class Data
 {
     /**
      * convert data from array to object
-     *
-     * @param  array  $payload
-     * @return static
      */
     public static function fromArray(array $payload): static
     {
@@ -25,8 +22,6 @@ abstract class Data
 
     /**
      * convert data object to array
-     *
-     * @return array
      */
     public function toArray(): array
     {

@@ -6,9 +6,6 @@ use Khomeriki\BitgoWallet\Data\Data;
 
 final class TransferData extends Data
 {
-    /**
-     * @var string
-     */
     public string $walletPassphrase;
 
     /**
@@ -16,8 +13,5 @@ final class TransferData extends Data
      */
     public array $recipients;
 
-    /**
-     * @var int
-     */
     public int $feeRate;
 }

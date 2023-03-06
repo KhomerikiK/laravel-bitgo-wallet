@@ -11,8 +11,6 @@ class BitgoServiceProvider extends ServiceProvider
 {
     /**
      * Register any package services.
-     *
-     * @return void
      */
     public function register(): void
     {
