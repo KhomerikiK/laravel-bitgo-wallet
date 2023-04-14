@@ -20,7 +20,7 @@ interface BitgoAdapterContract
 
     public function getWallet(string $coin, ?string $walletId): ?array;
 
-    public function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array;
+    public function generateAddressOnWallet(string $coin, string $walletId, string $label = null): ?array;
 
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array;
 

@@ -53,7 +53,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function generaAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
+    public function generateAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
     {
         $endpoint = "$coin/wallet/$walletId/address";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, ['label' => $label]);

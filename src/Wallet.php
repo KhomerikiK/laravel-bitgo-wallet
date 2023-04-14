@@ -216,7 +216,7 @@ class Wallet extends WalletData implements WalletContract
 
     public function generateAddress(string $label = null): Address
     {
-        $address = $this->adapter->generaAddressOnWallet($this->coin, $this->id, $label);
+        $address = $this->adapter->generateAddressOnWallet($this->coin, $this->id, $label);
 
         return Address::fromArray($address);
     }
