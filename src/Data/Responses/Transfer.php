@@ -48,7 +48,7 @@ class Transfer extends Data
 
     public array $history;
 
-    public string $comment;
+    public ?string $comment;
 
     public int $vSize;
 
