@@ -19,7 +19,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $this->httpGet(self::API_PREFIX.'user/me');
     }
 
-    public function getExchangeRates(string $coin = null): ?array
+    public function getExchangeRates(?string $coin = null): ?array
     {
         $coinFilter = $coin ? "coin=$coin" : '';
         $response = $this->httpGet(self::API_PREFIX.'market/latest?'.$coinFilter);
@@ -53,7 +53,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function generateAddressOnWallet(string $coin, string $walletId, string $label = null): ?array
+    public function generateAddressOnWallet(string $coin, string $walletId, ?string $label = null): ?array
     {
         $endpoint = "$coin/wallet/$walletId/address";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, ['label' => $label]);
@@ -61,7 +61,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, string $callbackUrl = null): ?array
+    public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, ?string $callbackUrl = null): ?array
     {
         $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
@@ -91,7 +91,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function getAllWallets(string $coin = null, ?array $params = []): ?array
+    public function getAllWallets(?string $coin = null, ?array $params = []): ?array
     {
         $params['coin'] = $coin;
         $query = http_build_query($params);

@@ -6,9 +6,6 @@ use Khomeriki\BitgoWallet\Data\Data;
 
 class Wallet extends Data
 {
-    /**
-     * @var ?string
-     */
     public ?string $id;
 
     /**

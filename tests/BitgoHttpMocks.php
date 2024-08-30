@@ -55,7 +55,7 @@ trait BitgoHttpMocks
         Http::fake([
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer" => Http::response(['transfers' => [$webhookData]]),
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer/62b1c6168e0b9e0007b421314aba0654" => Http::response($webhookData),
-            "{$expressUrl}tbtc/wallet/generate" => Http::response($walletData),
+            "{$expressUrl}tbtc/wallet/generate" => Http::response(['wallet' => $walletData]),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
             "{$testingUrl}market/latest*" => Http::response($exchangeRateMock),
 

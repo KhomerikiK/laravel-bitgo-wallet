@@ -169,14 +169,14 @@ class Wallet extends WalletData implements WalletContract
         $this->coin = config('bitgo.default_coin');
     }
 
-    private function setProperties(array $propertyList)
+    private function setProperties(array $propertyList): void
     {
         foreach ($propertyList as $key => $value) {
             $this->$key = $value;
         }
     }
 
-    public function init(string $coin, string $id = null): self
+    public function init(string $coin, ?string $id = null): self
     {
         $this->coin = $coin;
         $this->id = $id;
@@ -184,17 +184,18 @@ class Wallet extends WalletData implements WalletContract
         return $this;
     }
 
-    public function generate(string $label, string $passphrase, array $options = []): self
+    public function generate(string $label, string $passphrase, string $enterpriseId, array $options = []): self
     {
         $options = array_merge([
             'label' => $label,
             'passphrase' => $passphrase,
+            'enterprise' => $enterpriseId,
         ], $options);
 
         $generateWalletData = GenerateWallet::fromArray($options);
 
         $wallet = $this->adapter->generateWallet($this->coin, $generateWalletData);
-        $this->setProperties($wallet);
+        $this->setProperties($wallet['wallet']);
 
         return $this;
     }
@@ -207,14 +208,14 @@ class Wallet extends WalletData implements WalletContract
         return $this;
     }
 
-    public function addWebhook(int $numConfirmations = 0, string $callbackUrl = null): Webhook
+    public function addWebhook(int $numConfirmations = 0, ?string $callbackUrl = null): Webhook
     {
         $webhook = $this->adapter->addWalletWebhook($this->coin, $this->id, $numConfirmations, $callbackUrl);
 
         return Webhook::fromArray($webhook);
     }
 
-    public function generateAddress(string $label = null): Address
+    public function generateAddress(?string $label = null): Address
     {
         $address = $this->adapter->generateAddressOnWallet($this->coin, $this->id, $label);
 
@@ -228,7 +229,7 @@ class Wallet extends WalletData implements WalletContract
         return Transfer::fromArray($transfer);
     }
 
-    public function listAll(string $coin = null, ?array $params = []): Collection
+    public function listAll(?string $coin = null, ?array $params = []): Collection
     {
         $wallets = collect($this->adapter->getAllWallets($coin, $params)['wallets'] ?? []);
 

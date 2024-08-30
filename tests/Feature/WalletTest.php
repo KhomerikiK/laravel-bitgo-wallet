@@ -8,7 +8,7 @@ use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
     $wallet = Wallet::init('tbtc')
-        ->generate('testing label', 'testing pass');
+        ->generate('testing label', 'testing pass', '66d1ad21f27a81b56df03a87f84ad57d');
 
     expect($wallet)
         ->toBeObject()
@@ -31,7 +31,7 @@ it('can get wallet transfer', function () {
 
 it('can generate wallet with webhook', function () {
     $webhook = Wallet::init('tbtc')
-        ->generate('wallet with webhook', 'testing pass')
+        ->generate('wallet with webhook', 'testing pass', 'asd')
         ->addWebhook(0);
 
     expect($webhook)
@@ -48,7 +48,7 @@ it('inits wallet correctly', function () {
 });
 
 it('can list all the available wallets', function () {
-    $wallets = Wallet::listAll(params:[
+    $wallets = Wallet::listAll(params: [
         'expandBalance' => 'true',
     ]);
     $wallet = $wallets->first();
