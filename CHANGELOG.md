@@ -2,6 +2,15 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v0.7.0 - 2024-09-21
+
+### What's Changed
+
+* Chore/composer by @KhomerikiK in https://github.com/KhomerikiK/laravel-bitgo-wallet/pull/19
+* chore(deps): bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/KhomerikiK/laravel-bitgo-wallet/pull/18
+
+**Full Changelog**: https://github.com/KhomerikiK/laravel-bitgo-wallet/compare/v0.6.5...v0.7.0
+
 ## v0.6.5 - 2024-08-31
 
 ### What's Changed
