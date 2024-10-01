@@ -41,7 +41,7 @@
         <env name="BITGO_USE_MOCKS" value="true"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="BITGO_API_KEY" value="v2x0319e561094727c6cdd729e5bb4561ab6e7e4fb9b2d65009d3b51dde93a3c121"/>
+        <env name="BITGO_API_KEY" value=""/>
         <env name="BITGO_EXPRESS_API_URL" value="http://localhost:3080"/>
         <env name="BITGO_TESTNET" value="true"/>
         <env name="BITGO_WEBHOOK_CALLBACK" value=""/>
