@@ -2,6 +2,14 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v0.8.0 - 2024-10-01
+
+### What's Changed
+
+* Feature/body properties for http get by @KhomerikiK in https://github.com/KhomerikiK/laravel-bitgo-wallet/pull/20
+
+**Full Changelog**: https://github.com/KhomerikiK/laravel-bitgo-wallet/compare/v0.7.0...v0.8.0
+
 ## v0.7.0 - 2024-09-21
 
 ### What's Changed
