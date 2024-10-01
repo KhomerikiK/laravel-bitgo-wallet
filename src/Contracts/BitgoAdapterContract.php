@@ -32,7 +32,7 @@ interface BitgoAdapterContract
 
     public function sendTransactionToMany(string $coin, string $walletId, TransferData $transfer): ?array;
 
-    public function getMaximumSpendable(string $coin, string $walletId): ?array;
+    public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array;
 
     public function listTraWalletTransfers(string $coin, string $walletId): ?array;
 }

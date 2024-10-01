@@ -114,3 +114,11 @@ it('can send transaction', closure: function () {
     $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
     expect($res)->toBeArray();
 });
+
+it('can get a maximum spendable amount of the wallet', function () {
+    $result = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')->getMaximumSpendable([
+        'feeRate' => 0,
+    ]);
+
+    expect($result)->toBeArray();
+});

@@ -26,7 +26,7 @@ interface WalletContract
 
     public function sendTransfer(TransferData $transfer): ?array;
 
-    public function getMaximumSpendable(): ?array;
+    public function getMaximumSpendable(?array $params = []): ?array;
 
     public function getTransfers(): ?array;
 }

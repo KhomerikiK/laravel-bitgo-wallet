@@ -19,7 +19,7 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->adapter = new BitgoAdapter();
+        $this->adapter = new BitgoAdapter;
         if (config('bitgo.use_mocks')) {
             self::setupMocks();
         }

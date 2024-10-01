@@ -250,9 +250,9 @@ class Wallet extends WalletData implements WalletContract
         );
     }
 
-    public function getMaximumSpendable(): ?array
+    public function getMaximumSpendable(?array $params = []): ?array
     {
-        return $this->adapter->getMaximumSpendable($this->coin, $this->id);
+        return $this->adapter->getMaximumSpendable($this->coin, $this->id, $params);
     }
 
     public function getTransfers(?array $params = []): ?array
