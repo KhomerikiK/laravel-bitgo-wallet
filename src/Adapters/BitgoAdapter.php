@@ -111,10 +111,10 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function getMaximumSpendable(string $coin, string $walletId): ?array
+    public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array
     {
         $endpoint = "$coin/wallet/$walletId/maximumSpendable";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet(self::API_PREFIX.$endpoint, $params);
 
         return $response->json();
     }
