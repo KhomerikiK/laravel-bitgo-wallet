@@ -2,6 +2,14 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v0.9.0 - 2024-10-12
+
+### What's Changed
+
+* feat: add method for consolidateunspents endpoint by @KhomerikiK in https://github.com/KhomerikiK/laravel-bitgo-wallet/pull/21
+
+**Full Changelog**: https://github.com/KhomerikiK/laravel-bitgo-wallet/compare/v0.8.0...v0.9.0
+
 ## v0.8.0 - 2024-10-01
 
 ### What's Changed
