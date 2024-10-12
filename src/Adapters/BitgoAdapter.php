@@ -126,4 +126,12 @@ class BitgoAdapter implements BitgoAdapterContract
 
         return $response->json();
     }
+
+    public function consolidate(string $coin, string $walletId, ?array $params = []): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/consolidateunspents";
+        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $params);
+
+        return $response->json();
+    }
 }

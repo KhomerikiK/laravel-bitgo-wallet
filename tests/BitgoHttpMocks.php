@@ -75,6 +75,7 @@ trait BitgoHttpMocks
                 'user' => 'fake',
             ]),
             "{$expressUrl}tbtc/wallet/wallet-id/sendmany" => Http::response([]),
+            "{$expressUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/consolidateunspents" => Http::response([]),
         ]);
     }
 }
