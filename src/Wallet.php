@@ -263,4 +263,9 @@ class Wallet extends WalletData implements WalletContract
             return Transfer::fromArray($item);
         }, $walletTransfers['transfers']);
     }
+
+    public function consolidate(?array $params): ?array
+    {
+        return $this->adapter->consolidate($this->coin, $this->id, $params);
+    }
 }

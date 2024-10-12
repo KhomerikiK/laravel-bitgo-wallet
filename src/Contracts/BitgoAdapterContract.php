@@ -35,4 +35,6 @@ interface BitgoAdapterContract
     public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array;
 
     public function listTraWalletTransfers(string $coin, string $walletId): ?array;
+
+    public function consolidate(string $coin, string $walletId, ?array $params = []): ?array;
 }
