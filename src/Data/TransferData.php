@@ -1,6 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Data\Requests;
+namespace Khomeriki\BitgoWallet\Data;
 
 use Khomeriki\BitgoWallet\Data\Data;
 

@@ -4,8 +4,8 @@ namespace Khomeriki\BitgoWallet\Adapters;
 
 use Illuminate\Http\Client\Response;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\GenerateWallet;
+use Khomeriki\BitgoWallet\Data\TransferData;
 use Khomeriki\BitgoWallet\Traits\InteractsWithBitgo;
 
 class BitgoAdapter implements BitgoAdapterContract
