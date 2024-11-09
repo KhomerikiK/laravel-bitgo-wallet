@@ -3,8 +3,8 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Http\Client\Response;
-use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\GenerateWallet;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 interface BitgoAdapterContract
 {

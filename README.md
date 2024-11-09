@@ -154,7 +154,7 @@ return $transfer;
 
 ```php
 
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;
+use Khomeriki\BitgoWallet\Data\TransferData;use Khomeriki\BitgoWallet\Data\TransferRecipientData;use Khomeriki\BitgoWallet\Facades\Wallet;
 
 
 //you can add as many recipients as you need :)
