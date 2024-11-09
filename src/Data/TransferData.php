@@ -2,8 +2,6 @@
 
 namespace Khomeriki\BitgoWallet\Data;
 
-use Khomeriki\BitgoWallet\Data\Data;
-
 final class TransferData extends Data
 {
     public string $walletPassphrase;

@@ -2,8 +2,6 @@
 
 namespace Khomeriki\BitgoWallet\Data;
 
-use Khomeriki\BitgoWallet\Data\Data;
-
 class GenerateWallet extends Data
 {
     /**
