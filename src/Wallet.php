@@ -6,11 +6,11 @@ use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
 use Khomeriki\BitgoWallet\Data\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\TransferData;
 use Khomeriki\BitgoWallet\Data\Responses\Address;
 use Khomeriki\BitgoWallet\Data\Responses\Transfer;
 use Khomeriki\BitgoWallet\Data\Responses\Wallet as WalletData;
 use Khomeriki\BitgoWallet\Data\Responses\Webhook;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 class Wallet extends WalletData implements WalletContract
 {

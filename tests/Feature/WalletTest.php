@@ -1,9 +1,9 @@
 <?php
 
-use Khomeriki\BitgoWallet\Data\TransferData;
-use Khomeriki\BitgoWallet\Data\TransferRecipientData;
 use Khomeriki\BitgoWallet\Data\Responses\Transfer;
 use Khomeriki\BitgoWallet\Data\Responses\Webhook;
+use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\TransferRecipientData;
 use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
