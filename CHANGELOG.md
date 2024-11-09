@@ -2,6 +2,14 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v0.10.0 - 2024-11-09
+
+### What's Changed
+
+* refactor: move dtos out of requests directory by @KhomerikiK in https://github.com/KhomerikiK/laravel-bitgo-wallet/pull/22
+
+**Full Changelog**: https://github.com/KhomerikiK/laravel-bitgo-wallet/compare/v0.9.0...v0.10.0
+
 ## v0.9.0 - 2024-10-12
 
 ### What's Changed
