@@ -16,7 +16,7 @@ The `Khomeriki\BitgoWallet` package provides a set of features to:
 - **Wallet Management**: Generate and initialize wallets, manage wallet properties, and retrieve wallet information.
 - **Transfers**: Support for sending multi-recipient transactions and fetching wallet transfers.
 - **Webhooks**: Automated notifications for wallet activities.
-- **Balance Management**: Get spendable amounts, consolidate balances, and monitor wallet UTXOs.
+- **Balance Management**: Get spendable amounts, consolidate balances, and monitor wallet details.
 
 ## Setting Up BitGo Express with Docker
 To use the `Khomeriki\BitgoWallet` package, BitGo Express needs to be running as a local service. BitGo Express acts as a bridge between your application and the BitGo API, securely managing wallet interactions and signing transactions.
